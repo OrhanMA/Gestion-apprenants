@@ -55,14 +55,14 @@ class UsersRepository extends Database implements RepositoryInterface
   public function create($data)
   {
     $database = $this->getDb();
-    $query = 'INSERT INTO users (firstName, lastName, active, email, password, roledId) VALUES (:firstName, :lastName, :active, :email, :password, :roledId)';
+    $query = 'INSERT INTO users (firstName, lastName, active, email, password, roleId) VALUES (:firstName, :lastName, :active, :email, :password, :roleId)';
     $statement = $database->prepare($query);
     $statement->bindParam(':firstName', $data['firstName']);
     $statement->bindParam(':lastName', $data['lastName']);
-    $statement->bindParam(':active', $data['active']);
+    $statement->bindParam(':active', $data['active'], PDO::PARAM_INT);
     $statement->bindParam(':email', $data['email']);
     $statement->bindParam(':password', $data['password']);
-    $statement->bindParam(':roleId', $data['roleId']);
+    $statement->bindParam(':roleId', $data['roleId'], PDO::PARAM_INT);
     $result = $statement->execute();
     return $result;
   }
