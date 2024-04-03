@@ -20,15 +20,15 @@ class CoursesRepository extends Database implements RepositoryInterface
     $query = 'SELECT * FROM courses WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
-    $course = $statement->fetch(PDO::FETCH_CLASS, Course::class);
-    return $course;
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   public function update($data, $id)
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE courses SET date=:date period=:period promotionId=:promotionId WHERE id=:id';
+    $query = 'UPDATE courses SET date=:date, period=:period, promotionId=:promotionId WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':date', $data['date']);
     $statement->bindParam(':period', $data['period']);
@@ -42,7 +42,7 @@ class CoursesRepository extends Database implements RepositoryInterface
   {
     // logique pour supprimer un instance
     $database = $this->getDb();
-    $query = 'DELETE courses WHERE id=:id';
+    $query = 'DELETE FROM courses WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();

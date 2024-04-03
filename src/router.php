@@ -1,7 +1,7 @@
 <?php
 $highway = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
-
+$data = file_get_contents('php://input');
 
 
 
@@ -35,24 +35,34 @@ switch ($highway) {
         // case ROLES_API:
         // //////
         // break;
-
+    case str_starts_with($highway, PROMOTIONS_API_UPDATE);
+        $id = explode('/', $highway)[5];
+        $promotionsController->update($data, $id);
+        break;
+    case str_starts_with($highway, PROMOTIONS_API_DELETE);
+        $id = explode('/', $highway)[5];
+        $promotionsController->delete($id);
+        break;
     case PROMOTIONS_API:
         if ($method == 'GET') {
             $promotionsController->index();
         } else if ($method == 'POST') {
-            $data = file_get_contents('php://input');
             $promotionsController->create($data);
         }
         break;
-
+    case PROMOTIONS_API:
+        if ($method == 'GET') {
+            $promotionsController->index();
+        } else if ($method == 'POST') {
+            $promotionsController->create($data);
+        }
+        break;
     case USERS_API:
         if ($method == 'GET') {
             $usersController->index();
         } elseif ($method == 'POST') {
-            $data = file_get_contents('php://input');
             $usersController->create($data);
         }
-
         break;
 
         // default:
