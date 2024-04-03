@@ -15,20 +15,18 @@ class PromotionsRepository extends Database implements RepositoryInterface
 
   public function getById($id)
   {
-    // logique pour récupérer une instance par son id
     $database = $this->getDb();
     $query = 'SELECT * FROM promotions WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
-    $promotion = $statement->fetch(PDO::FETCH_CLASS, Promotion::class);
-    return $promotion;
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   public function update($data, $id)
   {
-    // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE promotions SET name=:name startDate=:startDate endDate=:endDate places=:places WHERE id=:id';
+    $query = 'UPDATE promotions SET name=:name, startDate=:startDate, endDate=:endDate, places=:places WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':name', $data['name']);
     $statement->bindParam(':startDate', $data['startDate']);
