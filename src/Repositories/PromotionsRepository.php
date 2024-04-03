@@ -28,7 +28,7 @@ class PromotionsRepository extends Database implements RepositoryInterface
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE roles SET name=:name startDate=:startDate endDate=:endDate places=:places WHERE id=:id';
+    $query = 'UPDATE promotions SET name=:name startDate=:startDate endDate=:endDate places=:places WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':name', $data['name']);
     $statement->bindParam(':startDate', $data['startDate']);
@@ -50,8 +50,16 @@ class PromotionsRepository extends Database implements RepositoryInterface
     return $result;
   }
 
-  public function create($data) {
+  public function create($data)
+  {
     $database = $this->getDb();
-    //TODO
+    $query = 'INSERT INTO promotions (name, startDate, endDate, places) VALUES (:name, :startDate, :endDate, places)';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':name', $data['name']);
+    $statement->bindParam(':startDate', $data['startDate']);
+    $statement->bindParam(':endDate', $data['endDate']);
+    $statement->bindParam(':places', $data['places']);
+    $result = $statement->execute();
+    return $result;
   }
 }

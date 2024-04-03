@@ -52,8 +52,18 @@ class UsersRepository extends Database implements RepositoryInterface
     return $result;
   }
 
-  public function create($data) {
+  public function create($data)
+  {
     $database = $this->getDb();
-    //TODO
+    $query = 'INSERT INTO users (firstName, lastName, active, email, password, roledId) VALUES (:firstName, :lastName, :active, :email, :password, :roledId)';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':firstName', $data['firstName']);
+    $statement->bindParam(':lastName', $data['lastName']);
+    $statement->bindParam(':active', $data['active']);
+    $statement->bindParam(':email', $data['email']);
+    $statement->bindParam(':password', $data['password']);
+    $statement->bindParam(':roleId', $data['roleId']);
+    $result = $statement->execute();
+    return $result;
   }
 }

@@ -47,8 +47,13 @@ class RolesRepository extends Database implements RepositoryInterface
     return $result;
   }
 
-  public function create($data) {
+  public function create($data)
+  {
     $database = $this->getDb();
-    //TODO
+    $query = 'INSERT INTO roles (name) VALUES (:name)';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':name', $data['name']);
+    $result = $statement->execute();
+    return $result;
   }
 }
