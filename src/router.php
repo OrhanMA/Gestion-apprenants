@@ -57,7 +57,8 @@ switch ($highway) {
         }
         break;
 
-        case USERS_API_UPDATE:
+        case str_starts_with($highway ,USERS_API_UPDATE):
+            $id = explode('/', $highway)[5];
             if($method == 'GET') {
                 echo"error";
             } elseif($method == 'POST') {
@@ -65,7 +66,8 @@ switch ($highway) {
             }
         break;
         
-        case USERS_API_DELETE:
+        case str_starts_with($highway ,USERS_API_DELETE):
+            $id = explode('/', $highway)[5];
             if($method == 'GET') {
                 echo"error";
             } elseif($method == 'POST') {
