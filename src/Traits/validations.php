@@ -16,16 +16,45 @@ trait Validations
   {
     foreach ($data as $key => $value) {
       if (!isset($data[$key]) || empty($data[$key])) {
-        return ['valid' => false, 'message' => "$key must be provided"];
+        return ['valid' => false, 'message' => "Le champ $key doit être fourni."];
       }
     }
-    return ['valid' => true, 'message' => 'all data is set and not empty in the array'];
+    return ['valid' => true, 'message' => 'Toutes les données sont valides'];
   }
 
   public function respectStringLength(string $string, int $maxLength, int $minLength = 0): bool
   {
     $length = strlen($string);
     if ($length > $minLength && $length <= $maxLength) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function responseWithError(int $responseCode, string $message)
+  {
+    http_response_code($responseCode);
+    header('Content-Type: application/json');
+    $jsonData = json_encode(['created' => 'false', 'message' => $message]);
+    echo $jsonData;
+  }
+
+  public function validateDate(string $dateString)
+  {
+    $dateRegex = "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/";
+    if (!preg_match($dateRegex, $dateString)) {
+      return false;
+    }
+    if (!$this->respectStringLength($dateString, 10)) {
+      return false;
+    }
+    return true;
+  }
+
+  public function validateNumber($number)
+  {
+    if (is_numeric($number)) {
       return true;
     } else {
       return false;
@@ -94,6 +123,6 @@ trait Validations
             }
         }
 
-        return ['valid' => true, 'message' => 'all form fields are valid'];
-    }
+    return ['valid' => true, 'message' => 'all form fields are valid'];
+  }
 }

@@ -53,7 +53,7 @@ class PromotionsRepository extends Database implements RepositoryInterface
   public function create($data)
   {
     $database = $this->getDb();
-    $query = 'INSERT INTO promotions (name, startDate, endDate, places) VALUES (:name, :startDate, :endDate, places)';
+    $query = 'INSERT INTO promotions (name, startDate, endDate, places) VALUES (:name, :startDate, :endDate, :places)';
     $statement = $database->prepare($query);
     $statement->bindParam(':name', $data['name']);
     $statement->bindParam(':startDate', $data['startDate']);
