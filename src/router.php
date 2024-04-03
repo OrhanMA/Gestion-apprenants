@@ -39,7 +39,8 @@ switch ($highway) {
         if($method == 'GET') {
             $usersController->index();
         }elseif ($method == 'POST') {
-            $usersController->create();
+            $data = file_get_contents('php://input');
+            $usersController->create($data);
         }
 
         break;
@@ -48,5 +49,7 @@ switch ($highway) {
         // $notFoundController->notFoundPage;
 
 }
+
+//rooter affichafe page prijcipale
 
 ?>
