@@ -40,7 +40,7 @@ class RolesRepository extends Database implements RepositoryInterface
   {
     // logique pour supprimer un instance
     $database = $this->getDb();
-    $query = 'DELETE roles WHERE id=:id';
+    $query = 'DELETE FROM roles WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();

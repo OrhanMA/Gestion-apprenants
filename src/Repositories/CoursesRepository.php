@@ -42,7 +42,7 @@ class CoursesRepository extends Database implements RepositoryInterface
   {
     // logique pour supprimer un instance
     $database = $this->getDb();
-    $query = 'DELETE courses WHERE id=:id';
+    $query = 'DELETE FROM courses WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
