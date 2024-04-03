@@ -41,7 +41,7 @@ class PromotionsRepository extends Database implements RepositoryInterface
   {
     // logique pour supprimer un instance
     $database = $this->getDb();
-    $query = 'DELETE promotions WHERE id=:id';
+    $query = 'DELETE FROM promotions WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
