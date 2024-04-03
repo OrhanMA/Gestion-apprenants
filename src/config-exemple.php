@@ -15,5 +15,5 @@ define("HOME_PAGE", BASE_URL . "/home");
 define("LOGIN_PAGE", BASE_URL . "/login");
 define("COURSES_PAGE", BASE_URL . "/courses");
 define("ROLES_PAGE", BASE_URL . "/roles");
-define("PROMOTION_PAGE", BASE_URL . "/promotions");
+define("PROMOTIONS_PAGE", BASE_URL . "/promotions");
 define("USERS_PAGE", BASE_URL . "/users");
