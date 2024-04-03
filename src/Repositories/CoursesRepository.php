@@ -48,4 +48,9 @@ class CoursesRepository extends Database implements RepositoryInterface
     $result = $statement->execute();
     return $result;
   }
+
+  public function create($data) {
+    $database = $this->getDb();
+    //TODO
+  }
 }

@@ -9,7 +9,7 @@ class UsersRepository extends Database implements RepositoryInterface
     $database = $this->getDb();
     $query = 'SELECT * FROM users';
     $statement = $database->query($query);
-    $users = $statement->fetchAll(PDO::FETCH_CLASS, User::class);
+    $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
 
@@ -50,5 +50,10 @@ class UsersRepository extends Database implements RepositoryInterface
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
     return $result;
+  }
+
+  public function create($data) {
+    $database = $this->getDb();
+    //TODO
   }
 }
