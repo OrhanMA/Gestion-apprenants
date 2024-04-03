@@ -103,14 +103,27 @@ class PromotionsController
     }
 
     $createResponse = $this->promotionRepository->update($sanitizedData, $id);
-    http_response_code(201);
+    http_response_code(200);
     header('Content-Type: application/json');
     $jsonData = json_encode(['created' => $createResponse, 'message' => 'La ressource a bien été mise à jour', 'promotion' => $sanitizedData]);
     echo $jsonData;
     exit();
   }
 
-  public function delete()
+  public function delete($id)
   {
+    $deleteResponse = $this->promotionRepository->delete($id);
+    if (!$deleteResponse) {
+      http_response_code(400);
+      header('Content-Type: application/json');
+      $jsonData = json_encode(['created' => $deleteResponse, 'message' => "La ressource n'a pas été supprimée"]);
+      echo $jsonData;
+      exit();
+    }
+    http_response_code(200);
+    header('Content-Type: application/json');
+    $jsonData = json_encode(['created' => $deleteResponse, 'message' => 'La ressource a bien été supprimée']);
+    echo $jsonData;
+    exit();
   }
 }
