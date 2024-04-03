@@ -10,6 +10,7 @@ class PromotionsController
     $this->promotionRepository = new PromotionsRepository();
   }
 
+
   // update, delete, show?
   public function index()
   {

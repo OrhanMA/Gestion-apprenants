@@ -2,10 +2,14 @@
 
 class UsersController {
 
+        use Validations;
+
         private $usersRepository;
+        private $PromotionsRepository;
       
         public function __construct() {
           $this->usersRepository = new UsersRepository();
+          $this->PromotionsRepository = new PromotionsRepository();
         }
       
         public function index() {
@@ -23,19 +27,35 @@ class UsersController {
 
         public function create($data) {
            
-            $data = json_decode($data, true);
+          $data = json_decode($data, true);
 
-            print_r($data);
+          $dataIsSet = $this->allDataSetNotEmpty($data);
+          $sanitizedData = $this->arraySanitize($data);
+          $dataValid = $this->validateFormFields($sanitizedData);
 
-            $createUser = $this->usersRepository->create($data);
+          if (!$dataIsSet['valid']) {
+            http_response_code(400);
+            echo json_encode(array('message' => $dataIsSet['message']));
+            return;
+          }
 
-            http_response_code(200);
+          if (!$dataValid['valid']) {
+            http_response_code(400);
+            echo json_encode(array('message' => $dataValid['message']));
+          }
 
+          $createUser = $this->usersRepository->create($sanitizedData);
+
+          if ($createUser) {
+            http_response_code(201);
+            echo json_encode(array("created" => $createUser, "message" => "Apprenant créé avec succès!"));
             header('Content-Type: application/json');
+          } else {
+            http_response_code(500);
+            echo json_encode(array("message" => "Une erreur est survenue lors de la création de l'apprenant !"));
+          }
 
-            $jsonData = json_encode($createUser);
 
-            print_r($jsonData);
         }
 
         public function update($data, $id) {
@@ -65,4 +85,5 @@ class UsersController {
   
             echo$jsonData;
           }
+  
 }

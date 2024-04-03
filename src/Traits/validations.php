@@ -105,7 +105,6 @@ trait Validations
     if (!in_array($promotion, $validPromotions)) {
       return ['valid' => false, 'message' => "invalid promotion selected"];
     }
-
     return ['valid' => true, 'message' => 'all form fields are valid'];
   }
 }

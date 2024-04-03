@@ -50,7 +50,13 @@ switch ($highway) {
             $promotionsController->create($data);
         }
         break;
-
+    case PROMOTIONS_API:
+        if ($method == 'GET') {
+            $promotionsController->index();
+        } else if ($method == 'POST') {
+            $promotionsController->create($data);
+        }
+        break;
     case USERS_API:
         if ($method == 'GET') {
             $usersController->index();
