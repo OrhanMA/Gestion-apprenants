@@ -3,10 +3,7 @@ $highway = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 
-
-
-
-// $homeController = new HomeController();
+$homeController = new HomeController();
 // $loginController = new LoginController();
 // $coursesController = new CoursesController();
 // $rolesController = new RolesController();
@@ -15,9 +12,11 @@ $usersController = new UsersController();
 // $notFoundController = new NotFoundController();
 
 switch ($highway) {
-        // case HOME_PAGE:
+        case HOME_PAGE:
+
+        $homeController->index();
         
-        // break;
+        break;
 
         // case LOGIN_API:
         // //////
@@ -35,18 +34,17 @@ switch ($highway) {
         // //////
         // break;
 
-        case USERS_API:
-        if($method == 'GET') {
-            $usersController->index();
-        }elseif ($method == 'POST') {
-            $usersController->create();
-        }
+        // case USERS_API:
+        // if($method == 'GET') {
+        //     $usersController->index();
+        // }elseif ($method == 'POST') {
+        //     $usersController->create();
+        // }
 
-        break;
+        // break;
 
         // default:
         // $notFoundController->notFoundPage;
 
 }
 
-?>

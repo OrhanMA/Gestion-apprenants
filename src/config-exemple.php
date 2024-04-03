@@ -6,11 +6,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 //Database environment variables
 define("DATABASE_HOST", "");
 define("DATABASE_NAME", "");
-define("DATABASE_USERNAME", "");
+define("DATABASE_USERNAME", "root");
 define("DATABASE_PASSWORD", "");
 
 //Highways
-define("BASE_URL", "");
+define("BASE_URL", "/public");
 define("HOME_PAGE", BASE_URL . "/home");
 define("LOGIN_PAGE", BASE_URL . "/login");
 define("COURSES_PAGE", BASE_URL . "/courses");
