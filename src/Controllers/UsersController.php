@@ -40,6 +40,8 @@ class UsersController {
 
         public function update($data, $id) {
 
+            $data = json_decode($data, true);
+
             $data = $this->usersRepository->update($data, $id);
   
             http_response_code(200);
