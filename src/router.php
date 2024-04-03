@@ -10,13 +10,18 @@ $method = $_SERVER['REQUEST_METHOD'];
 // $loginController = new LoginController();
 // $coursesController = new CoursesController();
 // $rolesController = new RolesController();
-// $promotionsController = new PromotionsController();
+$promotionsController = new PromotionsController();
 $usersController = new UsersController();
 // $notFoundController = new NotFoundController();
 
+
+// print_r($highway);
+// echo '<br/>';
+// print_r(PROMOTIONS_API);
+
 switch ($highway) {
         // case HOME_PAGE:
-        
+
         // break;
 
         // case LOGIN_API:
@@ -31,14 +36,19 @@ switch ($highway) {
         // //////
         // break;
 
-        // case PROMOTIONS_API:
-        // //////
-        // break;
+    case PROMOTIONS_API:
+        if ($method == 'GET') {
+            $promotionsController->index();
+        } else if ($method == 'POST') {
+            $data = file_get_contents('php://input');
+            $promotionsController->create($data);
+        }
+        break;
 
-        case USERS_API:
-        if($method == 'GET') {
+    case USERS_API:
+        if ($method == 'GET') {
             $usersController->index();
-        }elseif ($method == 'POST') {
+        } elseif ($method == 'POST') {
             $data = file_get_contents('php://input');
             $usersController->create($data);
         }
@@ -51,5 +61,3 @@ switch ($highway) {
 }
 
 //rooter affichafe page prijcipale
-
-?>
