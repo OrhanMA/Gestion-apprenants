@@ -65,9 +65,29 @@ switch ($highway) {
         }
         break;
 
+        case str_starts_with($highway ,USERS_API_UPDATE):
+            $id = explode('/', $highway)[5];
+            if($method == 'GET') {
+                echo"error";
+            } elseif($method == 'POST') {
+                $usersController->update($data, $id);
+            }
+        break;
+        
+        case str_starts_with($highway ,USERS_API_DELETE):
+            $id = explode('/', $highway)[5];
+            if($method == 'GET') {
+                echo"error";
+            } elseif($method == 'POST') {
+                $usersController->delete($id);
+            }
+
         // default:
-        // $notFoundController->notFoundPage;
+        
+        // 404
 
 }
 
 //rooter affichafe page prijcipale
+
+?>

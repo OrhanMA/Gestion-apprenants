@@ -28,7 +28,7 @@ class UsersRepository extends Database implements RepositoryInterface
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE roles SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=roleId WHERE id=:id';
+    $query = 'UPDATE roles SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':firstName', $data['firstName']);
     $statement->bindParam(':lastName', $data['lastName']);
