@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+
+  # Assurez-vous que mod_rewrite est activé avant d'exécuter les directives ci-dessous.
+
+  # Active le moteur de réécriture, permettant la réécriture d'URLs.
+  RewriteEngine On
+
+  # Vérifie si la requête ne correspond pas à un fichier physique existant sur le serveur.
+  RewriteCond %{REQUEST_FILENAME} !-f
+
+  # Vérifie si la requête ne correspond pas à un dossier physique existant sur le serveur.
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Redirige toutes les requêtes qui ne correspondent pas à un fichier ou dossier existant vers index.php.
+  # [QSA] signifie "QueryString Append", permettant de conserver et d'ajouter à la chaîne de requête originale.
+  # [L] signifie "Last", indiquant que c'est la dernière règle à exécuter si la condition est remplie.
+  RewriteRule ^ index.php [QSA,L]
+
+</IfModule>
