@@ -28,9 +28,9 @@ class CoursesRepository extends Database implements RepositoryInterface
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE courses SET name=:name period=:period promotionId=:promotionId WHERE id=:id';
+    $query = 'UPDATE courses SET date=:date period=:period promotionId=:promotionId WHERE id=:id';
     $statement = $database->prepare($query);
-    $statement->bindParam(':name', $data['name']);
+    $statement->bindParam(':date', $data['date']);
     $statement->bindParam(':period', $data['period']);
     $statement->bindParam(':promotionId', $data['promotionId']);
     $statement->bindParam(':id', $id);

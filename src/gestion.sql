@@ -44,15 +44,16 @@ CREATE TABLE `user_course` (
 
 ALTER TABLE `users` ADD FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`);
 
-ALTER TABLE `user_course` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+ALTER TABLE `user_course` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `user_course` ADD FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`);
+ALTER TABLE `user_course` ADD FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `courses` ADD FOREIGN KEY (`promotionId`) REFERENCES `promotions` (`id`);
 
-ALTER TABLE `user_promotion` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+ALTER TABLE `user_promotion` ADD FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `user_promotion` ADD FOREIGN KEY (`promotionId`) REFERENCES `promotions` (`id`);
+ALTER TABLE `user_promotion` ADD FOREIGN KEY (`promotionId`) REFERENCES `promotions` (`id`) ON DELETE CASCADE;
+
 
 INSERT INTO roles (name) VALUES
 ('apprenants'),
