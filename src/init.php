@@ -9,6 +9,7 @@ function classLoader($className)
   $folderPathRepositories = __DIR__ . '/Repositories/';
   $folderPathControllers = __DIR__ . '/Controllers/';
   $folderPathTraits = __DIR__ . '/Traits/';
+  $folderPathInterfaces = __DIR__ . '/Interfaces/';
 
 
   if (file_exists($folderPathClasses . $filePathClass)) {
@@ -29,6 +30,10 @@ function classLoader($className)
 
   if (file_exists($folderPathTraits . $filePathClass)) {
     require $folderPathTraits . $filePathClass;
+  }
+
+  if (file_exists($folderPathInterfaces . $filePathClass)) {
+    require $folderPathInterfaces . $filePathClass;
   }
 }
 
