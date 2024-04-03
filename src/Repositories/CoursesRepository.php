@@ -49,8 +49,15 @@ class CoursesRepository extends Database implements RepositoryInterface
     return $result;
   }
 
-  public function create($data) {
+  public function create($data)
+  {
     $database = $this->getDb();
-    //TODO
+    $query = 'INSERT INTO courses (date, period, promotionId) VALUES (:date, :period, :promotionId)';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':date', $data['date']);
+    $statement->bindParam(':period', $data['period']);
+    $statement->bindParam(':promotionId', $data['promotionId']);
+    $result = $statement->execute();
+    return $result;
   }
 }
