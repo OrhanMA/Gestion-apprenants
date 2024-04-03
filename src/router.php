@@ -42,14 +42,27 @@ switch ($highway) {
             $data = file_get_contents('php://input');
             $usersController->create($data);
         }
-
         break;
 
+        case USERS_API_UPDATE:
+            if($method == 'GET') {
+                echo"error";
+            } elseif($method == 'POST') {
+                $usersController->update($data, $id);
+            }
+        break;
+        
+        case USERS_API_DELETE:
+            if($method == 'GET') {
+                echo"error";
+            } elseif($method == 'POST') {
+                $usersController->delete($id);
+            }
+
         // default:
-        // $notFoundController->notFoundPage;
+        
+        // 404
 
 }
-
-//rooter affichafe page prijcipale
 
 ?>
