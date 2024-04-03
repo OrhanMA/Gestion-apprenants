@@ -20,8 +20,8 @@ class RolesRepository extends Database implements RepositoryInterface
     $query = 'SELECT * FROM roles WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
-    $role = $statement->fetch(PDO::FETCH_CLASS, Role::class);
-    return $role;
+    $statement->execute();
+    return  $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   public function update($data, $id)

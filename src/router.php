@@ -35,7 +35,10 @@ switch ($highway) {
         // case ROLES_API:
         // //////
         // break;
-
+    case str_starts_with($highway, PROMOTIONS_API_UPDATE);
+        $id = explode('/', $highway)[5];
+        $promotionsController->update($data, $id);
+        break;
     case PROMOTIONS_API:
         if ($method == 'GET') {
             $promotionsController->index();
