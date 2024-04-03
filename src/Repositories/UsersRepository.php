@@ -45,7 +45,7 @@ class UsersRepository extends Database implements RepositoryInterface
   {
     // logique pour supprimer un instance
     $database = $this->getDb();
-    $query = 'DELETE users WHERE id=:id';
+    $query = 'DELETE FROM users WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
