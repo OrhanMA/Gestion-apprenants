@@ -17,7 +17,7 @@ $usersController = new UsersController();
 // print_r(PROMOTIONS_API);
 
 switch ($highway) {
-        case HOME_PAGE:
+    case HOME_PAGE:
         $homeController->index();
         break;
         // case LOGIN_API:
@@ -69,10 +69,7 @@ switch ($highway) {
         } elseif ($method == 'POST') {
             $usersController->delete($id);
         }
-
-        // default:
-
-        // 404
-
+    default:
+        $homeController->pageNotFound();
+        break;
 }
-?>

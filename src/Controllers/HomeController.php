@@ -2,17 +2,16 @@
 <?php
 class HomeController
 {
-    use Response;
-    private $usersRepository;
+  use Response;
+  private $usersRepository;
 
-    public function index()
-    {
+  public function index()
+  {
+    $this->render('home');
+  }
 
-        $this->render('home');
-    }
-
-    public function pageNotFound()
-    {
-        $this->render('404');
-    }
+  public function pageNotFound()
+  {
+    $this->render('404');
+  }
 }
