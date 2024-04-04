@@ -19,7 +19,8 @@ trait Response
             }
         }
 
+        // print_r(__DIR__ . '/../Views/' . $view . ".php");
         // Inclut le fichier de la vue spécifiée par le paramètre $view
-        include_once __DIR__ . '/../Views/' . $view. ".php";
+        include_once __DIR__ . '/../Views/' . $view . ".php";
     }
 }
