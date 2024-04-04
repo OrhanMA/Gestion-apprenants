@@ -39,7 +39,7 @@ class UsersRepository extends Database implements RepositoryInterface
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE roles SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
+    $query = 'UPDATE users SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':firstName', $data['firstName']);
     $statement->bindParam(':lastName', $data['lastName']);
@@ -47,6 +47,19 @@ class UsersRepository extends Database implements RepositoryInterface
     $statement->bindParam(':email', $data['email']);
     $statement->bindParam(':password', $data['password']);
     $statement->bindParam(':roleId', $data['roleId']);
+    $statement->bindParam(':id', $id);
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function updatePassword($password, $id)
+  {
+    $database = $this->getDb();
+    $active = 1;
+    $query = 'UPDATE users SET password=:password, active=:active WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':password', $password);
+    $statement->bindParam(':active', $active);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
     return $result;
