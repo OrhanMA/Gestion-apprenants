@@ -20,6 +20,12 @@ switch ($highway) {
     case HOME_PAGE:
         $homeController->index();
         break;
+    case AUTH_CHECK_EMAIL:
+        if ($method == "POST") {
+            echo 'match';
+            $authController->checkExisitingEmail();
+        }
+        break;
         // case LOGIN_API:
         // //////
         // break;
