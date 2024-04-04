@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    <h1>Titre de la page</h1>
+    <p class="descriptionParagraph">Sous-titre de la page</p>
     <div class="pageContainer">
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
     </div>
