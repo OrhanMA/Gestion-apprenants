@@ -13,6 +13,17 @@ class UsersRepository extends Database implements RepositoryInterface
     return $users;
   }
 
+  public function getByEmail($email)
+  {
+    // logique pour récupérer une instance par son id
+    $database = $this->getDb();
+    $query = 'SELECT * FROM users WHERE email=:email';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':email', $email);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   public function getById($id)
   {
     // logique pour récupérer une instance par son id
