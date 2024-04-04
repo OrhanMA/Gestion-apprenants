@@ -4,12 +4,11 @@ const descriptionParagraph = document.querySelector(".descriptionParagraph");
 h1.textContent = "Bienvenue";
 descriptionParagraph.textContent = "";
 const pageContainer = document.querySelector(".pageContainer");
-const checkEmailURL =
-  "http://localhost:8888/Gestion-apprenants/public/auth/check_email";
-const createPasswordURL =
-  "http://localhost:8888/Gestion-apprenants/public/auth/create_password";
-
-const loginURL = "http://localhost:8888/Gestion-apprenants/public/auth/login";
+const baseURL = "http://localhost:8888/Gestion-apprenants/public";
+const checkEmailURL = baseURL + "/auth/check_email";
+const createPasswordURL = baseURL + "/auth/create_password";
+const loginURL = baseURL + "/auth/login";
+const coursesURL = baseURL + "/courses";
 const welcomeForm1Data = [
   {
     type: "email",
@@ -117,9 +116,10 @@ function displayLoginForm(user) {
 
       if (!loginSuccess) {
         alert(data.message);
+        return;
       }
-
       // redirection vers page selon données dans data.user (voir le role et rediriger en conséquence)
+      displayCoursesPage(user);
     } catch (error) {
       console.log("Error creating password: ", error);
     }
@@ -202,4 +202,53 @@ function createForm(inputsData, target, id, submitButtonText) {
   form.appendChild(buttonSubmit);
 
   target.appendChild(form);
+}
+
+async function displayCoursesPage(user) {
+  pageContainer.innerHTML = "";
+  h1.textContent = "Tous les cours";
+  descriptionParagraph.textContent =
+    "Liste des cours pour l'apprenant(e) " +
+    user.firstName +
+    " " +
+    user.lastName;
+  try {
+    const response = await fetch(coursesURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: user.id }),
+    });
+    const data = await response.json();
+    const success = data.success;
+    if (!success) {
+      alert(data.message);
+      return;
+    }
+    const courses = data.courses;
+    const coursesContainer = document.createElement("div");
+    injectCoursesList(coursesContainer, courses);
+    pageContainer.appendChild(coursesContainer);
+  } catch (error) {
+    console.log("Erreur lors du fetch des cours", error);
+  }
+}
+
+function injectCoursesList(target, courses) {
+  courses.forEach((course) => {
+    const card = createCourseCard(course);
+    target.appendChild(card);
+  });
+}
+
+function createCourseCard(course) {
+  const card = document.createElement("div");
+  const period = document.createElement("p");
+  period.textContent = course.course_period;
+  const date = document.createElement("p");
+  date.textContent = course.course_date;
+  card.appendChild(period);
+  card.appendChild(date);
+  return card;
 }

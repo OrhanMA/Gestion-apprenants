@@ -13,6 +13,20 @@ class CoursesRepository extends Database implements RepositoryInterface
     return $courses;
   }
 
+  public function getUserCourses($userId)
+  {
+    $database = $this->getDb();
+    $query = 'SELECT uc.id AS user_course_id, u.id AS user_id, u.firstName AS user_firstName, u.lastName AS user_lastName, u.email AS user_email, c.id AS course_id, c.date AS course_date, c.period AS course_period
+                  FROM user_course uc
+                  JOIN users u ON uc.userId = u.id
+                  JOIN courses c ON uc.courseId = c.id
+                  WHERE uc.userId = :userId';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':userId', $userId);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function getById($id)
   {
     // logique pour récupérer une instance par son id

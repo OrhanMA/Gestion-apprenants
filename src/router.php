@@ -5,7 +5,7 @@ $data = file_get_contents('php://input');
 
 $homeController = new HomeController();
 // $loginController = new LoginController();
-// $coursesController = new CoursesController();
+$coursesController = new CoursesController();
 $rolesController = new RolesController();
 $promotionsController = new PromotionsController();
 $usersController = new UsersController();
@@ -33,6 +33,11 @@ switch ($highway) {
     case AUTH_LOGIN:
         if ($method == "POST") {
             $authController->login($data);
+        }
+        break;
+    case COURSES_API:
+        if ($method == "POST") {
+            $coursesController->getUserCourses($data);
         }
         break;
         // case AUTH:
