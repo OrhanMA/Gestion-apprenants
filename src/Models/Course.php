@@ -3,10 +3,9 @@
 class Course
 {
   public $id;
-  public $name;
-  public $startDate;
-  public $endDate;
-  public $places;
+  public $date;
+  public $period;
+  public $promotionId;
 
   public function getId()
   {
@@ -17,39 +16,30 @@ class Course
     $this->id = $value;
   }
 
-  public function getName()
+  public function getDate()
   {
-    return $this->name;
+    return $this->date;
   }
-  public function setName($value)
+  public function setDate($value)
   {
-    $this->name = $value;
-  }
-
-  public function getStartDate()
-  {
-    return $this->startDate;
-  }
-  public function setStartDate($value)
-  {
-    $this->startDate = $value;
+    $this->date = $value;
   }
 
-  public function getEndDate()
+  public function getPeriod()
   {
-    return $this->endDate;
+    return $this->period;
   }
-  public function setEndDate($value)
+  public function setPeriod($value)
   {
-    $this->endDate = $value;
+    $this->period = $value;
   }
 
-  public function getPlaces()
+  public function getPromotionId()
   {
-    return $this->places;
+    return $this->promotionId;
   }
-  public function setPlaces($value)
+  public function setPromotionId($value)
   {
-    $this->places = $value;
+    $this->promotionId = $value;
   }
 }
