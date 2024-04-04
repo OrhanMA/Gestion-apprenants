@@ -3,10 +3,7 @@ $highway = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $data = file_get_contents('php://input');
 
-
-
-
-// $homeController = new HomeController();
+$homeController = new HomeController();
 // $loginController = new LoginController();
 // $coursesController = new CoursesController();
 $rolesController = new RolesController();
@@ -20,6 +17,9 @@ $usersController = new UsersController();
 // print_r(PROMOTIONS_API);
 
 switch ($highway) {
+        case HOME_PAGE:
+        $homeController->index();
+        break;
         // case LOGIN_API:
         // //////
         // break;
@@ -75,5 +75,4 @@ switch ($highway) {
         // 404
 
 }
-
-//rooter affichafe page prijcipale
+?>
