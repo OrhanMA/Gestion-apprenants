@@ -43,7 +43,7 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function delete($id)
   {
-    // logique pour supprimer un instance
+    // logique pour supprimer une instance
     $database = $this->getDb();
     $query = 'DELETE FROM users WHERE id=:id';
     $statement = $database->prepare($query);

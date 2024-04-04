@@ -21,3 +21,5 @@ define("PROMOTIONS_API_DELETE", PROMOTIONS_API . "/delete/");
 define("USERS_API", BASE_URL . "/users");
 define("USERS_API_UPDATE", USERS_API . "/update/");
 define("USERS_API_DELETE", USERS_API . "/delete/");
+define("AUTH", BASE_URL . "/auth");
+define("AUTH_CHECK_EMAIL", AUTH . "/check_email");
