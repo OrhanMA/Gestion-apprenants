@@ -9,10 +9,43 @@
 </head>
 
 <body>
-    <div class="pageContainer">
+    <!-- <div class="pageContainer"> -->
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
+    <!-- </div> -->
+    
+    <div class="container mt-3">
+        <h2>Toutes les promotions</h2>
+        <p>tableau des promotions de Simplon</p>
+        <div class="text-right mb-3">
+            <a class="btn btn-primary">Ajouter promotion</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Promotion</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Places</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>DWWM 3</td>
+                    <td>01-01-2024</td>
+                    <td>01-12-2024</td>
+                    <td>15</td>
+                    <td>
+                        <a class="btn btn-info btn-sm">Voir</a>
+                        <a class="btn btn-warning btn-sm">Éditer</a>
+                        <a class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script>
         const body = document.querySelector("body");
         const pageContainer = document.querySelector('.pageContainer');
 
@@ -70,8 +103,8 @@
 
             target.appendChild(form);
         }
-    </script>
-    <style>
+    </script> -->
+    <!-- <style>
         body {
             margin: 0;
             padding: 0;
@@ -88,7 +121,7 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
-    </style>
+    </style> -->
 </body>
 
 </html>
