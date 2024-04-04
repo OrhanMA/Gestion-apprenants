@@ -27,35 +27,63 @@ class UsersController {
 
         public function create($data) {
            
+          $data = json_decode($data, true);
+
+          $dataIsSet = $this->allDataSetNotEmpty($data);
+          $sanitizedData = $this->arraySanitize($data);
+          $dataValid = $this->validateFormFields($sanitizedData);
+
+          if (!$dataIsSet['valid']) {
+            http_response_code(400);
+            echo json_encode(array('message' => $dataIsSet['message']));
+            return;
+          }
+
+          if (!$dataValid['valid']) {
+            http_response_code(400);
+            echo json_encode(array('message' => $dataValid['message']));
+          }
+
+          $createUser = $this->usersRepository->create($sanitizedData);
+
+          if ($createUser) {
+            http_response_code(201);
+            echo json_encode(array("created" => $createUser, "message" => "Apprenant créé avec succès!"));
+            header('Content-Type: application/json');
+          } else {
+            http_response_code(500);
+            echo json_encode(array("message" => "Une erreur est survenue lors de la création de l'apprenant !"));
+          }
+
+
+        }
+
+        public function update($data, $id) {
+
             $data = json_decode($data, true);
 
-            $dataIsSet = $this->allDataSetNotEmpty($data);
-            $sanitizedData = $this->arraySanitize($data);
-            $dataValid = $this->validateFormFields($sanitizedData);
+            $data = $this->usersRepository->update($data, $id);
+  
+            http_response_code(200);
+  
+            header('Content-Type: application/json');
+  
+            $jsonData = json_encode($data);
+  
+            echo$jsonData;
+          }
 
-            if (!$dataIsSet['valid']) {
-              http_response_code(400);
-              echo json_encode(array('message' => $dataIsSet['message']));
-              return;
-            }
+        public function delete($id) {
 
-            if (!$dataValid['valid']) {
-              http_response_code(400);
-              echo json_encode(array('message' => $dataValid['message']));
-            }
-
-            // $promotionId = $sanitizedData["promotion_id"];
-            // $promotionExists = $this->PromotionsRepository->getById(array_search($promotionId, $sanitizedData));
-        
-              $createUser = $this->usersRepository->create($sanitizedData);
-              
-              if ($createUser) {
-                http_response_code(201);
-                echo json_encode(array("created" => $createUser, "message" => "User created successfully !"));
-                header('Content-Type: application/json');
-              } else {
-                http_response_code(500);
-                echo json_encode(array("message" => "Unable to create user !"));
-              }
-  }
+            $data = $this->usersRepository->delete($id);
+  
+            http_response_code(200);
+  
+            header('Content-Type: application/json');
+  
+            $jsonData = json_encode($data);
+  
+            echo$jsonData;
+          }
+  
 }
