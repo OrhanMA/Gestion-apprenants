@@ -10,7 +10,7 @@ $rolesController = new RolesController();
 $promotionsController = new PromotionsController();
 $usersController = new UsersController();
 // $notFoundController = new NotFoundController();
-
+$authController = new AuthController();
 
 // print_r($highway);
 // echo '<br/>';
@@ -22,10 +22,13 @@ switch ($highway) {
         break;
     case AUTH_CHECK_EMAIL:
         if ($method == "POST") {
-            echo 'match';
-            $authController->checkExisitingEmail();
+            $authController->checkExisitingEmail($data);
         }
         break;
+        // case AUTH:
+        //     if ($method == "POST") {
+        //         $autController->checkExisitingEmail();
+        //     }
         // case LOGIN_API:
         // //////
         // break;
