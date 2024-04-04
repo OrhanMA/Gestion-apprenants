@@ -25,6 +25,16 @@ switch ($highway) {
             $authController->checkExisitingEmail($data);
         }
         break;
+    case AUTH_CREATE_PASSWORD:
+        if ($method == "POST") {
+            $authController->createPassword($data);
+        }
+        break;
+    case AUTH_LOGIN:
+        if ($method == "POST") {
+            $authController->login($data);
+        }
+        break;
         // case AUTH:
         //     if ($method == "POST") {
         //         $autController->checkExisitingEmail();
