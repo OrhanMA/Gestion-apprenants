@@ -6,6 +6,7 @@ form {
   width: 300px;
 }
 
+
 /***********************************PROMOTION DETIAL LUCAS******************************************/
 
 header {
@@ -25,4 +26,9 @@ header {
 .descriptionParagraph {
   margin-top: 20px;
   margin-left: 25px;
+}
+
+.squareBullets {
+  list-style-type: square;
+  padding-left: 20px;
 }

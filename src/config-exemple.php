@@ -21,3 +21,5 @@ define("USERS_API_UPDATE", USERS_API . "/update/");
 define("USERS_API_DELETE", USERS_API . "/delete/");
 define("AUTH", BASE_URL . "/auth");
 define("AUTH_CHECK_EMAIL", AUTH . "/check_email");
+define("AUTH_CREATE_PASSWORD", AUTH . "/create_password");
+define("AUTH_LOGIN", AUTH . "/login");

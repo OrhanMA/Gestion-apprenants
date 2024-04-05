@@ -5,7 +5,7 @@ $data = file_get_contents('php://input');
 
 $homeController = new HomeController();
 // $loginController = new LoginController();
-// $coursesController = new CoursesController();
+$coursesController = new CoursesController();
 $rolesController = new RolesController();
 $promotionsController = new PromotionsController();
 $usersController = new UsersController();
@@ -25,6 +25,30 @@ switch ($highway) {
             $authController->checkExisitingEmail($data);
         }
         break;
+    case AUTH_CREATE_PASSWORD:
+        if ($method == "POST") {
+            $authController->createPassword($data);
+        }
+        break;
+    case AUTH_LOGIN:
+        if ($method == "POST") {
+            $authController->login($data);
+        }
+        break;
+    case COURSES_API:
+        if ($method == "GET") {
+            $coursesController->index();
+        }
+        if ($method == "POST") {
+            $coursesController->getUserCourses($data);
+        }
+        break;
+    case COURSES_API_SIGN:
+        if ($method == "POST") {
+            $coursesController->signUserCourse($data);
+        }
+        break;
+
         // case AUTH:
         //     if ($method == "POST") {
         //         $autController->checkExisitingEmail();
