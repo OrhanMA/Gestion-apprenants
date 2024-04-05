@@ -1,17 +1,11 @@
 export function navbarPromotionDetail() {
   let navbarPromotionDetailContent = `
-        <a href="#">
-            <button type="button" class="btn btn-primary">Retour</button>
-        </a>
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Informations générales</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Retards</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Absences</a>
-        </li>
+  <nav class='navbar promotionNavbar'>
+            <button type="button" class="btn btn-primary">Liste des cours</button>
+            <button type="button" class="btn">Promotions</button>
+            <button type="button" class="btn">Apprenants</button>
+            <button type="button" class="btn">Absences</button>
+    </nav>
     `;
 
   const navbarPromotionDetail = document.getElementById(

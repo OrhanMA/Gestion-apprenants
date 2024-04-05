@@ -20,7 +20,6 @@ const userCourseSignatureURL = baseURL + "/courses/sign_course";
 let current_user = null;
 let authenticated = false;
 
-// navbarPromotionDetail();
 // promotionDetailInfos();
 // promotionCreate(pageContainer);
 // promotionList(pageContainer);
@@ -79,6 +78,8 @@ async function logout() {
     console.error("Erreur lors de la déconnexion ", error);
   }
 }
+
+// navbarPromotionDetail();
 
 createForm(
   welcomeForm1Data,
@@ -206,6 +207,24 @@ async function displayCoursesPage(user) {
     }
   }
   if (role === 4) {
+    navbarPromotionDetail();
+    const promotionNavbar = document.querySelector(".promotionNavbar");
+    const navbarButtons = promotionNavbar.querySelectorAll("button");
+    console.log(navbarButtons);
+    const pageContainer = document.querySelector(".pageContainer");
+    navbarButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const page = button.textContent;
+        console.log(page);
+        if (page === "Promotions") {
+          // display page liste promotions
+          pageContainer.innerHTML = "";
+          const promotions = await getAllPromotions();
+          console.log(promotions);
+          promotionList(pageContainer, promotions);
+        }
+      });
+    });
     const h1 = document.querySelector("h1");
     if (h1) {
       h1.textContent = "Les cours à venir";
@@ -228,6 +247,19 @@ async function displayCoursesPage(user) {
       pageContainer.appendChild(coursesContainer);
       injectCoursesList(coursesContainer, courses, "pedagogique");
     }
+  }
+}
+
+export async function getAllPromotions() {
+  try {
+    const response = await fetch(baseURL + "/promotions", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des promotions", error);
   }
 }
 

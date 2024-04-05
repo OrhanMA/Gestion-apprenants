@@ -1,3 +1,6 @@
+import { getAllPromotions } from "./form.js";
+import { promotionList } from "./promotionList.js";
+
 export function promotionCreate(target) {
   const container = document.createElement("div");
   container.classList.add("container", "mt-5");
@@ -11,15 +14,15 @@ export function promotionCreate(target) {
 
   const formGroups = [
     {
-      id: "nomPromotion",
+      id: "name",
       label: "Nom de la promotion",
       type: "text",
       placeholder: "Entrez le nom de la promotion",
     },
-    { id: "dateDebut", label: "Date de début", type: "date" },
-    { id: "dateFin", label: "Date de fin", type: "date" },
+    { id: "startDate", label: "Date de début", type: "date" },
+    { id: "endDate", label: "Date de fin", type: "date" },
     {
-      id: "placesDisponibles",
+      id: "places",
       label: "Place(s) disponible(s)",
       type: "number",
       placeholder: "Nombre de places disponibles",
@@ -37,6 +40,7 @@ export function promotionCreate(target) {
 
     const input = document.createElement("input");
     input.type = group.type;
+    input.name = group.id;
     input.classList.add("form-control");
     input.id = group.id;
     if (group.placeholder) {
@@ -47,12 +51,54 @@ export function promotionCreate(target) {
     form.appendChild(div);
   });
 
-  const button = document.createElement("button");
+  const button = document.createElement("input");
   button.type = "submit";
+  button.value = "Créer la promotion";
   button.classList.add("btn", "btn-primary");
   button.textContent = "Sauvegarder";
   form.appendChild(button);
 
   container.appendChild(form);
   target.appendChild(container);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = {
+      startDate: document.querySelector("#startDate").value,
+      endDate: document.querySelector("#endDate").value,
+      name: document.querySelector("#name").value,
+      places: document.querySelector("#places").value,
+    };
+    const response = await insertPromotion(data);
+    console.log(response);
+
+    if (!response.created) {
+      alert("Erreur lors de la création de la promotion. Veuillez réesayer");
+    }
+
+    const pageContainer = document.querySelector(".pageContainer");
+    pageContainer.innerHTML = "";
+    const promotions = await getAllPromotions();
+    promotionList(pageContainer, promotions);
+  });
+}
+
+async function insertPromotion(formData) {
+  console.log(formData);
+  try {
+    const response = await fetch(
+      "http://localhost:8888/Gestion-apprenants/public/promotions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la création d'une promotion", error);
+  }
 }

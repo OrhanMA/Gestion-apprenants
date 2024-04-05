@@ -1,4 +1,6 @@
-export function promotionList(target) {
+import { promotionCreate } from "./promotionCreate.js";
+
+export function promotionList(target, promotions) {
   const container = document.createElement("div");
   container.classList.add("container", "mt-3");
 
@@ -13,10 +15,15 @@ export function promotionList(target) {
   h2.textContent = "Toutes les promotions";
   header.appendChild(h2);
 
-  const link = document.createElement("a");
-  link.href = "";
+  const link = document.createElement("button");
   link.classList.add("btn", "btn-success", "font-weight-bold");
   link.textContent = "Ajouter promotion";
+
+  link.addEventListener("click", () => {
+    const pageContainer = document.querySelector(".pageContainer");
+    pageContainer.innerHTML = "";
+    promotionCreate(pageContainer);
+  });
   header.appendChild(link);
 
   container.appendChild(header);
@@ -28,12 +35,12 @@ export function promotionList(target) {
   const table = document.createElement("table");
   table.classList.add("table");
 
-  const promotions = [
-    { name: "DWWM 3", start: "01-01-2024", end: "01-12-2024", places: 15 },
-    { name: "DWWM 2", start: "01-01-2024", end: "01-12-2024", places: 15 },
-    { name: "CDA", start: "01-01-2024", end: "01-12-2024", places: 12 },
-    { name: "CDA list", start: "01-01-2024", end: "01-12-2024", places: 12 },
-  ];
+  //   const promotions = [
+  //     { name: "DWWM 3", startDate: "01-01-2024", endDate: "01-12-2024", places: 15 },
+  //     { name: "DWWM 2", startDate: "01-01-2024", endDate: "01-12-2024", places: 15 },
+  //     { name: "CDA", startDate: "01-01-2024", endDate: "01-12-2024", places: 12 },
+  //     { name: "CDA list", startDate: "01-01-2024", endDate: "01-12-2024", places: 12 },
+  //   ];
 
   promotions.forEach((promotion) => {
     const tr = document.createElement("tr");
@@ -44,15 +51,15 @@ export function promotionList(target) {
     tr.appendChild(tdName);
 
     const tdStart = document.createElement("td");
-    tdStart.textContent = promotion.start;
+    tdStart.textContent = "début: " + promotion.startDate;
     tr.appendChild(tdStart);
 
     const tdEnd = document.createElement("td");
-    tdEnd.textContent = promotion.end;
+    tdEnd.textContent = "fin: " + promotion.endDate;
     tr.appendChild(tdEnd);
 
     const tdPlaces = document.createElement("td");
-    tdPlaces.textContent = promotion.places;
+    tdPlaces.textContent = "places: " + promotion.places;
     tr.appendChild(tdPlaces);
 
     const tdActions = document.createElement("td");
