@@ -220,7 +220,6 @@ async function displayCoursesPage(user) {
           // display page liste promotions
           pageContainer.innerHTML = "";
           const promotions = await getAllPromotions();
-          console.log(promotions);
           promotionList(pageContainer, promotions);
         }
       });

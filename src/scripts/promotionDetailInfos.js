@@ -12,9 +12,7 @@ export async function promotionDetailInfos(target, promotionId) {
     <p class="descriptionParagraph">places: ${promotion.places}</p>
     </div>`;
 
-  const promotionDetailInfos = document.getElementById("promotionDetailInfos");
-
-  promotionDetailInfos.innerHTML = promotionDetailInfosContent;
+  target.innerHTML = promotionDetailInfosContent;
 
   target.appendChild(promotionDetailInfosContent);
 }
