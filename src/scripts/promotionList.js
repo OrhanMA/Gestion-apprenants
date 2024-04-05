@@ -1,4 +1,5 @@
 import { promotionCreate } from "./promotionCreate.js";
+import { promotionUpdate } from "./promotionUpdate.js";
 
 export function promotionList(target, promotions) {
   const container = document.createElement("div");
@@ -64,12 +65,21 @@ export function promotionList(target, promotions) {
 
     const tdActions = document.createElement("td");
 
-    const actions = ["Voir", "Éditer", "Supprimer"];
-    actions.forEach((action) => {
-      const a = document.createElement("a");
-      a.classList.add("btn", "btn-sm");
-      a.textContent = action;
-      tdActions.appendChild(a);
+    // const actions = ["Éditer", "Supprimer"];
+    // actions.forEach((action) => {
+    //   const a = document.createElement("a");
+    //   a.classList.add("btn", "btn-sm");
+    //   a.textContent = action;
+    //   tdActions.appendChild(a);
+    // });
+    const updateButton = document.createElement("button");
+    updateButton.textContent = "Éditer";
+    tdActions.appendChild(updateButton);
+    const promotionId = promotion.id;
+    updateButton.addEventListener("click", () => {
+      const pageContainer = document.querySelector(".pageContainer");
+      pageContainer.innerHTML = "";
+      promotionUpdate(pageContainer, promotionId);
     });
 
     tr.appendChild(tdActions);

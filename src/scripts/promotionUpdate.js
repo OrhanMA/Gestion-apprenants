@@ -1,4 +1,7 @@
-export function promotionUpdate(target) {
+import { getAllPromotions } from "./form.js";
+import { promotionList } from "./promotionList.js";
+
+export async function promotionUpdate(target, promotionId) {
   const container = document.createElement("div");
   container.classList.add("container", "mt-5");
 
@@ -12,25 +15,35 @@ export function promotionUpdate(target) {
 
   const form = document.createElement("form");
 
+  const response = await getPromotion(promotionId);
+  const promotion = response.promotion;
   const formGroups = [
     {
-      id: "nomPromotion",
+      id: "name",
       label: "Nom de la promotion",
       type: "text",
-      value: "DWWM3",
+      placeholder: "Entrez le nom de la promotion",
+      value: promotion.name,
     },
     {
-      id: "dateDebut",
+      id: "startDate",
       label: "Date de début",
       type: "date",
-      value: "2024-01-01",
+      value: promotion.startDate,
     },
-    { id: "dateFin", label: "Date de fin", type: "date", value: "2024-12-01" },
+
     {
-      id: "placesDisponibles",
+      id: "endDate",
+      label: "Date de fin",
+      type: "date",
+      value: promotion.endDate,
+    },
+    {
+      id: "places",
       label: "Place(s) disponible(s)",
       type: "number",
-      value: "15",
+      placeholder: "Nombre de places disponibles",
+      value: promotion.places,
     },
   ];
 
@@ -45,6 +58,7 @@ export function promotionUpdate(target) {
 
     const input = document.createElement("input");
     input.type = group.type;
+    input.name = group.id;
     input.classList.add("form-control");
     input.id = group.id;
     input.value = group.value;
@@ -62,6 +76,19 @@ export function promotionUpdate(target) {
   buttonDelete.textContent = "Supprimer";
   div.appendChild(buttonDelete);
 
+  buttonDelete.addEventListener("click", async () => {
+    const response = await deletePromotion(promotion.id);
+    if (response.success) {
+      alert("La promotion a bien été supprimée");
+    } else {
+      alert("Une erreur est survenue lors de la suppression de la promotion");
+    }
+    const pageContainer = document.querySelector(".pageContainer");
+    pageContainer.innerHTML = "";
+    const promotions = await getAllPromotions();
+    promotionList(pageContainer, promotions);
+  });
+
   const buttonSave = document.createElement("button");
   buttonSave.type = "submit";
   buttonSave.classList.add("btn", "btn-primary");
@@ -71,4 +98,75 @@ export function promotionUpdate(target) {
   form.appendChild(div);
   container.appendChild(form);
   target.appendChild(container);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = {
+      startDate: document.querySelector("#startDate").value,
+      endDate: document.querySelector("#endDate").value,
+      name: document.querySelector("#name").value,
+      places: document.querySelector("#places").value,
+    };
+    const response = await updatePromotion(data, promotion.id);
+    console.log(response);
+
+    if (!response.updated) {
+      alert("Erreur lors de la mise à jour de la promotion. Veuillez réesayer");
+    }
+
+    const pageContainer = document.querySelector(".pageContainer");
+    pageContainer.innerHTML = "";
+    const promotions = await getAllPromotions();
+    promotionList(pageContainer, promotions);
+  });
+}
+
+async function updatePromotion(formData, promotionId) {
+  console.log(formData);
+  try {
+    const response = await fetch(
+      `http://localhost:8888/Gestion-apprenants/public/promotions/update/${promotionId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la création d'une promotion", error);
+  }
+}
+
+async function deletePromotion(promotionId) {
+  try {
+    const response = await fetch(
+      `http://localhost:8888/Gestion-apprenants/public/promotions/delete/${promotionId}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la promotion");
+  }
+}
+
+async function getPromotion(promotionId) {
+  try {
+    const response = await fetch(
+      `http://localhost:8888/Gestion-apprenants/public/promotions/${promotionId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la promotion", error);
+  }
 }

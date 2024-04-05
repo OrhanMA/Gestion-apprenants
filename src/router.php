@@ -78,6 +78,12 @@ switch ($highway) {
             $rolesController->index();
         }
         break;
+    case str_starts_with($highway, PROMOTIONS_API . "/"):
+        if ($method == 'GET') {
+            $id = explode('/', $highway)[4];
+            $promotionsController->getById($id);
+        }
+        break;
     case PROMOTIONS_API:
         if ($method == 'GET') {
             $promotionsController->index();
