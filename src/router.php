@@ -35,6 +35,11 @@ switch ($highway) {
             $authController->login($data);
         }
         break;
+    case AUTH_LOGOUT:
+        if ($method == "GET") {
+            $authController->logout();
+        }
+        break;
     case COURSES_API:
         if ($method == "GET") {
             $coursesController->index();

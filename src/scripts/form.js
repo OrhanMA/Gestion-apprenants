@@ -1,12 +1,15 @@
+import {
+  welcomeForm1Data,
+  createPasswordInput,
+  loginPasswordInput,
+} from "./fixture.js";
 import { promotionCreate } from "./promotionCreate.js";
 import { promotionList } from "./promotionList.js";
 import { promotionUpdate } from "./promotionUpdate.js";
+import { navbarPromotionDetail } from "./navbarPromotionDetail.js";
+import { promotionDetailInfos } from "./promotionDetailInfos.js";
 
 const body = document.querySelector("body");
-const h1 = document.querySelector("h1");
-const descriptionParagraph = document.querySelector(".descriptionParagraph");
-h1.textContent = "Bienvenue";
-descriptionParagraph.textContent = "";
 const pageContainer = document.querySelector(".pageContainer");
 const baseURL = "http://localhost:8888/Gestion-apprenants/public";
 const checkEmailURL = baseURL + "/auth/check_email";
@@ -15,55 +18,81 @@ const loginURL = baseURL + "/auth/login";
 const coursesURL = baseURL + "/courses";
 const userCourseSignatureURL = baseURL + "/courses/sign_course";
 let current_user = null;
+let authenticated = false;
 
+// navbarPromotionDetail();
+// promotionDetailInfos();
 // promotionCreate(pageContainer);
 // promotionList(pageContainer);
 // promotionUpdate(pageContainer);
 
-const welcomeForm1Data = [
-  {
-    type: "email",
-    name: "email",
-    labelText: "Email",
-    placeholder: "mon-email@mail.com",
-    classes: "form-label",
-    id: "email",
-  },
-];
-const createPasswordInput = [
-  {
-    type: "password",
-    name: "password",
-    labelText: "Mot de passe",
-    placeholder: "",
-    classes: "form-label",
-    id: "password",
-  },
-  {
-    type: "password",
-    name: "passwordConfirm",
-    labelText: "Confirmez votre mot de passe",
-    placeholder: "",
-    classes: "form-label",
-    id: "passwordConfirm",
-  },
-];
-const loginPasswordInput = [
-  {
-    type: "password",
-    name: "password",
-    labelText: "Mot de passe",
-    placeholder: "",
-    classes: "form-label",
-    id: "password",
-  },
-];
-createForm(welcomeForm1Data, pageContainer, "emailForm", "Connexion");
+let headerConnectedContent = `
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">SIMPLON</a>
+        <a>
+            <span class="navbar-text connectionButton">Connexion</span>
+        </a>
+    </div>
+</nav>
+`;
+
+const headerConnected = document.getElementById("headerConnected");
+
+headerConnected.innerHTML = headerConnectedContent;
+
+const connectionButton = document.querySelector(".connectionButton");
+connectionButton.style.cursor = "pointer";
+
+connectionButton.addEventListener("click", async () => {
+  console.log("button clicked");
+  if (authenticated) {
+    const response = await logout();
+    console.log(response);
+    if (response.success) {
+      window.location.reload();
+    }
+  } else {
+    pageContainer.innerHTML = "";
+    createForm(
+      welcomeForm1Data,
+      pageContainer,
+      "emailForm",
+      "Connexion",
+      "Bienvenue",
+      "Entrez votre adresse email pour vous connecter"
+    );
+  }
+});
+
+async function logout() {
+  try {
+    const response = await fetch(baseURL + "/logout", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la déconnexion ", error);
+  }
+}
+
+createForm(
+  welcomeForm1Data,
+  pageContainer,
+  "emailForm",
+  "Connexion",
+  "Bienvenue",
+  "Entrez votre adresse email pour vous connecter"
+);
 const emailForm = document.getElementById("emailForm");
 const emailInput = emailForm.querySelector("input[type=email]");
 // emailInput.value = "test@test.com";
 emailInput.value = "michael.johnson@example.com";
-console.log(emailInput);
+
 emailForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = emailForm.querySelector("input[type=email]");
@@ -107,7 +136,10 @@ function displayLoginForm(user) {
     "loginPasswordForm",
     "Connexion"
   );
-  descriptionParagraph.textContent = "";
+  const descriptionParagraph = document.querySelector(".descriptionParagraph");
+  if (descriptionParagraph) {
+    descriptionParagraph.textContent = "";
+  }
   const form = document.querySelector("#loginPasswordForm");
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -132,6 +164,11 @@ function displayLoginForm(user) {
         alert(data.message);
         return;
       }
+
+      authenticated = true;
+      current_user = user;
+      const connectionButton = document.querySelector(".connectionButton");
+      connectionButton.textContent = "Déconnexion";
       // redirection vers page selon données dans data.user (voir le role et rediriger en conséquence)
       displayCoursesPage(user);
     } catch (error) {
@@ -145,12 +182,18 @@ async function displayCoursesPage(user) {
   const role = user.roleId;
   // console.log(role);
   if (role === 1) {
-    h1.textContent = "Tous les cours pour " + user.firstName;
-    descriptionParagraph.textContent =
-      "Liste des cours pour l'apprenant(e) " +
-      user.firstName +
-      " " +
-      user.lastName;
+    const h1 = document.querySelector("h1");
+    if (h1) {
+      h1.textContent = "Tous les cours pour " + user.firstName;
+    }
+    const descriptionParagraph = document.querySelector("descriptionParagraph");
+    if (descriptionParagraph) {
+      descriptionParagraph.textContent =
+        "Liste des cours pour l'apprenant(e) " +
+        user.firstName +
+        " " +
+        user.lastName;
+    }
     // afficher les cours apprenants
     const data = await getUserCourses(user);
     const courses = data.courses;
@@ -163,12 +206,18 @@ async function displayCoursesPage(user) {
     }
   }
   if (role === 4) {
-    h1.textContent = "Les cours à venir";
-    descriptionParagraph.textContent =
-      "Liste des cours des promotions supervisée par le responsable pédagogique " +
-      user.firstName +
-      " " +
-      user.lastName;
+    const h1 = document.querySelector("h1");
+    if (h1) {
+      h1.textContent = "Les cours à venir";
+    }
+    const descriptionParagraph = document.querySelector("descriptionParagraph");
+    if (descriptionParagraph) {
+      descriptionParagraph.textContent =
+        "Liste des cours des promotions supervisée par le responsable pédagogique " +
+        user.firstName +
+        " " +
+        user.lastName;
+    }
     const data = await getAllCourses();
     const courses = data.courses;
     console.log(data);
@@ -360,7 +409,18 @@ function displayCreatePasswordForm(user) {
   });
 }
 
-function createForm(inputsData, target, id, submitButtonText) {
+function createForm(
+  inputsData,
+  target,
+  id,
+  submitButtonText,
+  h1Text,
+  descriptionText
+) {
+  const h1 = document.createElement("h1");
+  const descriptionParagraph = document.createElement("p");
+  descriptionParagraph.textContent = descriptionText;
+  h1.textContent = h1Text;
   const form = document.createElement("form");
   form.method = "POST";
   form.classList.add("mb-3");
@@ -386,5 +446,7 @@ function createForm(inputsData, target, id, submitButtonText) {
   buttonSubmit.classList.add("btn", "btn-primary");
   form.appendChild(buttonSubmit);
 
+  target.appendChild(h1);
+  target.appendChild(descriptionParagraph);
   target.appendChild(form);
 }

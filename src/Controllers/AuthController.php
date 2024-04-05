@@ -30,7 +30,15 @@ class AuthController
     }
 
     http_response_code(200);
+    $_SESSION['user'] = $user;
     echo json_encode(['success' => true, "message" => "La tentative de connexie est réussie", 'user' => $user]);
+  }
+
+  public function logout()
+  {
+    http_response_code(200);
+    $_SESSION['user'] = null;
+    echo json_encode(['success' => true, "message" => "Vous avez bien été déconnecté"]);
   }
 
   public function checkExisitingEmail($data)
