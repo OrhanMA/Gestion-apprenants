@@ -24,6 +24,33 @@ class UsersRepository extends Database implements RepositoryInterface
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
+  public function checkPasswordSet($id)
+  {
+    $database = $this->getDb();
+    $query = 'SELECT password FROM users WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result && $result['password'] !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function getByEmailSecureData($email)
+  {
+    // logique pour récupérer une instance par son id
+    $database = $this->getDb();
+    $query = 'SELECT id, firstName, lastName, active, email, roleId FROM users WHERE email=:email';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':email', $email);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   public function getById($id)
   {
     // logique pour récupérer une instance par son id
@@ -39,7 +66,7 @@ class UsersRepository extends Database implements RepositoryInterface
   {
     // logique pour mettre à jour une instance
     $database = $this->getDb();
-    $query = 'UPDATE roles SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
+    $query = 'UPDATE users SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
     $statement = $database->prepare($query);
     $statement->bindParam(':firstName', $data['firstName']);
     $statement->bindParam(':lastName', $data['lastName']);
@@ -47,6 +74,19 @@ class UsersRepository extends Database implements RepositoryInterface
     $statement->bindParam(':email', $data['email']);
     $statement->bindParam(':password', $data['password']);
     $statement->bindParam(':roleId', $data['roleId']);
+    $statement->bindParam(':id', $id);
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function updatePassword($password, $id)
+  {
+    $database = $this->getDb();
+    $active = 1;
+    $query = 'UPDATE users SET password=:password, active=:active WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':password', $password);
+    $statement->bindParam(':active', $active);
     $statement->bindParam(':id', $id);
     $result = $statement->execute();
     return $result;
