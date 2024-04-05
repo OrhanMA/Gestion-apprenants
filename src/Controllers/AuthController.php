@@ -49,8 +49,7 @@ class AuthController
     $user = $this->usersRepository->getByEmailSecureData($email);
 
     if (!isset($user) || $user == false) {
-      // Pas de user avec cet email
-      http_response_code(404); // Unauthorized
+      http_response_code(401);
       echo json_encode(['valid' => false, 'message' => "Aucun utilisateur n'est enregistré avec cet email"]);
       exit();
     }

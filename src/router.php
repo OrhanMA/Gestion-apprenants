@@ -1,22 +1,17 @@
 <?php
-$highway = $_SERVER['REQUEST_URI'];
+$route = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $data = file_get_contents('php://input');
 
 $homeController = new HomeController();
-// $loginController = new LoginController();
 $coursesController = new CoursesController();
 $rolesController = new RolesController();
 $promotionsController = new PromotionsController();
 $usersController = new UsersController();
-// $notFoundController = new NotFoundController();
 $authController = new AuthController();
 
-// print_r($highway);
-// echo '<br/>';
-// print_r(PROMOTIONS_API);
 
-switch ($highway) {
+switch ($route) {
     case HOME_PAGE:
         $homeController->index();
         break;
@@ -53,24 +48,12 @@ switch ($highway) {
             $coursesController->signUserCourse($data);
         }
         break;
-
-        // case AUTH:
-        //     if ($method == "POST") {
-        //         $autController->checkExisitingEmail();
-        //     }
-        // case LOGIN_API:
-        // //////
-        // break;
-
-        // case COURSES_API:
-        // //////
-        // break;
-    case str_starts_with($highway, PROMOTIONS_API_UPDATE);
-        $id = explode('/', $highway)[5];
+    case str_starts_with($route, PROMOTIONS_API_UPDATE);
+        $id = explode('/', $route)[5];
         $promotionsController->update($data, $id);
         break;
-    case str_starts_with($highway, PROMOTIONS_API_DELETE);
-        $id = explode('/', $highway)[5];
+    case str_starts_with($route, PROMOTIONS_API_DELETE);
+        $id = explode('/', $route)[5];
         $promotionsController->delete($id);
         break;
     case ROLES_API:
@@ -78,9 +61,9 @@ switch ($highway) {
             $rolesController->index();
         }
         break;
-    case str_starts_with($highway, PROMOTIONS_API . "/"):
+    case str_starts_with($route, PROMOTIONS_API . "/"):
         if ($method == 'GET') {
-            $id = explode('/', $highway)[4];
+            $id = explode('/', $route)[4];
             $promotionsController->getById($id);
         }
         break;
@@ -98,16 +81,16 @@ switch ($highway) {
             $usersController->create($data);
         }
         break;
-    case str_starts_with($highway, USERS_API_UPDATE):
-        $id = explode('/', $highway)[5];
+    case str_starts_with($route, USERS_API_UPDATE):
+        $id = explode('/', $route)[5];
         if ($method == 'GET') {
             echo "error";
         } elseif ($method == 'POST') {
             $usersController->update($data, $id);
         }
         break;
-    case str_starts_with($highway, USERS_API_DELETE):
-        $id = explode('/', $highway)[5];
+    case str_starts_with($route, USERS_API_DELETE):
+        $id = explode('/', $route)[5];
         if ($method == 'GET') {
             echo "error";
         } elseif ($method == 'POST') {

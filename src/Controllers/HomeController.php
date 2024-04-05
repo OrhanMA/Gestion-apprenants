@@ -3,7 +3,6 @@
 class HomeController
 {
   use Response;
-  private $usersRepository;
 
   public function index()
   {

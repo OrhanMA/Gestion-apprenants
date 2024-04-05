@@ -65,46 +65,46 @@ trait Validations
   {
     $firstnameValid = $this->respectStringLength($data['firstname'], 50);
     if ($firstnameValid == false) {
-      return ['valid' => false, 'message' => "firstname max length must be 50 characters"];
+      return ['valid' => false, 'message' => "Le prénom doit faire au maximum 50 caractères"];
     }
 
     $lastnameValid = $this->respectStringLength($data['lastname'], 50);
     if ($lastnameValid == false) {
-      return ['valid' => false, 'message' => "lastname max length must be 50 characters"];
+      return ['valid' => false, 'message' => "Le nom de famille doit faire au maximum 50 caractères"];
     }
 
     $emailLengthValid = $this->respectStringLength($data['email'], 50);
     if ($emailLengthValid == false) {
-      return ['valid' => false, 'message' => "email max length must be 50 characters"];
+      return ['valid' => false, 'message' => "L'email doit faire au maximum 50 caractères"];
     }
 
     $email = $data['email'];
     $emailFormatValid = preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email);
     if ($emailFormatValid === 0) {
-      return ['valid' => false, 'message' => "email must be of email format"];
+      return ['valid' => false, 'message' => "Le champ email doit respecter le format email (@ et .)"];
     }
 
     $role = $data['role'];
     $validRoles = ['manager', 'responsable', 'formateur', 'apprenant', 'delegue'];
 
     if (!isset($role) || empty($role)) {
-      return ['valid' => false, 'message' => "role must be selected"];
+      return ['valid' => false, 'message' => "Un rôle doit être choisi"];
     }
 
     if (!in_array($role, $validRoles)) {
-      return ['valid' => false, 'message' => "invalid role selected"];
+      return ['valid' => false, 'message' => "Le rôle selectionné est invalide"];
     }
 
     $promotion = $data['promotion'];
     $validPromotions = ['promotion1', 'promotion2', 'promotion3'];
 
     if (!isset($promotion) || empty($promotion)) {
-      return ['valid' => false, 'message' => "promotion must be selected"];
+      return ['valid' => false, 'message' => "Une promotion doit être selectionnée"];
     }
 
     if (!in_array($promotion, $validPromotions)) {
-      return ['valid' => false, 'message' => "invalid promotion selected"];
+      return ['valid' => false, 'message' => "Le promotion selectionnée est invalide"];
     }
-    return ['valid' => true, 'message' => 'all form fields are valid'];
+    return ['valid' => true, 'message' => 'Tous les champs du formulaire sont valides'];
   }
 }

@@ -5,7 +5,6 @@ class RolesRepository extends Database implements RepositoryInterface
 {
   public function getAll()
   {
-    // logique pour récupérer toutes les instances
     $database = $this->getDb();
     $query = 'SELECT * FROM roles';
     $statement = $database->query($query);
@@ -15,7 +14,6 @@ class RolesRepository extends Database implements RepositoryInterface
 
   public function getById($id)
   {
-    // logique pour récupérer une instance par son id
     $database = $this->getDb();
     $query = 'SELECT * FROM roles WHERE id=:id';
     $statement = $database->prepare($query);
@@ -26,7 +24,6 @@ class RolesRepository extends Database implements RepositoryInterface
 
   public function update($data, $id)
   {
-    // logique pour mettre à jour une instance
     $database = $this->getDb();
     $query = 'UPDATE roles SET name=:name WHERE id=:id';
     $statement = $database->prepare($query);
@@ -38,7 +35,6 @@ class RolesRepository extends Database implements RepositoryInterface
 
   public function delete($id)
   {
-    // logique pour supprimer un instance
     $database = $this->getDb();
     $query = 'DELETE FROM roles WHERE id=:id';
     $statement = $database->prepare($query);

@@ -10,8 +10,6 @@ class RolesController
     $this->roleRepository = new RolesRepository();
   }
 
-
-  // update, delete, show?
   public function index()
   {
     $roles = $this->roleRepository->getAll();

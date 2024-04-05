@@ -5,7 +5,6 @@ class PromotionsRepository extends Database implements RepositoryInterface
 {
   public function getAll()
   {
-    // logique pour récupérer toutes les instances
     $database = $this->getDb();
     $query = 'SELECT * FROM promotions';
     $statement = $database->query($query);
@@ -39,7 +38,6 @@ class PromotionsRepository extends Database implements RepositoryInterface
 
   public function delete($id)
   {
-    // logique pour supprimer un instance
     $database = $this->getDb();
     $query = 'DELETE FROM promotions WHERE id=:id';
     $statement = $database->prepare($query);

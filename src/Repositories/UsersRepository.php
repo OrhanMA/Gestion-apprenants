@@ -5,7 +5,6 @@ class UsersRepository extends Database implements RepositoryInterface
 {
   public function getAll()
   {
-    // logique pour récupérer toutes les instances
     $database = $this->getDb();
     $query = 'SELECT * FROM users';
     $statement = $database->query($query);
@@ -15,7 +14,6 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function getByEmail($email)
   {
-    // logique pour récupérer une instance par son id
     $database = $this->getDb();
     $query = 'SELECT * FROM users WHERE email=:email';
     $statement = $database->prepare($query);
@@ -42,7 +40,6 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function getByEmailSecureData($email)
   {
-    // logique pour récupérer une instance par son id
     $database = $this->getDb();
     $query = 'SELECT id, firstName, lastName, active, email, roleId FROM users WHERE email=:email';
     $statement = $database->prepare($query);
@@ -53,7 +50,6 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function getById($id)
   {
-    // logique pour récupérer une instance par son id
     $database = $this->getDb();
     $query = 'SELECT * FROM users WHERE id=:id';
     $statement = $database->prepare($query);
@@ -64,7 +60,6 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function update($data, $id)
   {
-    // logique pour mettre à jour une instance
     $database = $this->getDb();
     $query = 'UPDATE users SET firstName=:firstName, lastName=:lastName, active=:active, email=:email, password=:password, roleId=:roleId WHERE id=:id';
     $statement = $database->prepare($query);
@@ -94,7 +89,6 @@ class UsersRepository extends Database implements RepositoryInterface
 
   public function delete($id)
   {
-    // logique pour supprimer une instance
     $database = $this->getDb();
     $query = 'DELETE FROM users WHERE id=:id';
     $statement = $database->prepare($query);

@@ -10,11 +10,9 @@
 </head>
 
 <body class="d-flex flex-column">
-    <!-- --------------------DIV FOR JS ATTACHMENT----------------------- -->
     <div id="headerConnected"></div>
     <div id="navbarPromotionDetail"></div>
     <div id="promotionDetailInfos"></div>
-    <!-- ---------------------------------------------------------------- -->
     <div class="pageContainer gray">
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
     </div>
