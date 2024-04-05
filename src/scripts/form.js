@@ -1,3 +1,7 @@
+import { promotionCreate } from "./promotionCreate.js";
+import { promotionList } from "./promotionList.js";
+import { promotionUpdate } from "./promotionUpdate.js";
+
 const body = document.querySelector("body");
 const h1 = document.querySelector("h1");
 const descriptionParagraph = document.querySelector(".descriptionParagraph");
@@ -11,6 +15,11 @@ const loginURL = baseURL + "/auth/login";
 const coursesURL = baseURL + "/courses";
 const userCourseSignatureURL = baseURL + "/courses/sign_course";
 let current_user = null;
+
+// promotionCreate(pageContainer);
+// promotionList(pageContainer);
+// promotionUpdate(pageContainer);
+
 const welcomeForm1Data = [
   {
     type: "email",

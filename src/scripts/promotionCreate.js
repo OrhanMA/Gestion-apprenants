@@ -1,21 +1,32 @@
-const container = document.createElement("div");
-container.classList.add("container", "mt-5");
+export function promotionCreate(target) {
+  const container = document.createElement("div");
+  container.classList.add("container", "mt-5");
 
-const h2 = document.createElement("h2");
-h2.classList.add("mb-3");
-h2.textContent = "Création d'une promotion";
-container.appendChild(h2);
+  const h2 = document.createElement("h2");
+  h2.classList.add("mb-3");
+  h2.textContent = "Création d'une promotion";
+  container.appendChild(h2);
 
-const form = document.createElement("form");
+  const form = document.createElement("form");
 
-const formGroups = [
-    { id: "nomPromotion", label: "Nom de la promotion", type: "text", placeholder: "Entrez le nom de la promotion" },
+  const formGroups = [
+    {
+      id: "nomPromotion",
+      label: "Nom de la promotion",
+      type: "text",
+      placeholder: "Entrez le nom de la promotion",
+    },
     { id: "dateDebut", label: "Date de début", type: "date" },
     { id: "dateFin", label: "Date de fin", type: "date" },
-    { id: "placesDisponibles", label: "Place(s) disponible(s)", type: "number", placeholder: "Nombre de places disponibles" },
-];
+    {
+      id: "placesDisponibles",
+      label: "Place(s) disponible(s)",
+      type: "number",
+      placeholder: "Nombre de places disponibles",
+    },
+  ];
 
-formGroups.forEach(group => {
+  formGroups.forEach((group) => {
     const div = document.createElement("div");
     div.classList.add("form-group", "mb-3");
 
@@ -29,18 +40,19 @@ formGroups.forEach(group => {
     input.classList.add("form-control");
     input.id = group.id;
     if (group.placeholder) {
-        input.placeholder = group.placeholder;
+      input.placeholder = group.placeholder;
     }
     div.appendChild(input);
 
     form.appendChild(div);
-});
+  });
 
-const button = document.createElement("button");
-button.type = "submit";
-button.classList.add("btn", "btn-primary");
-button.textContent = "Sauvegarder";
-form.appendChild(button);
+  const button = document.createElement("button");
+  button.type = "submit";
+  button.classList.add("btn", "btn-primary");
+  button.textContent = "Sauvegarder";
+  form.appendChild(button);
 
-container.appendChild(form);
-document.body.appendChild(container);
+  container.appendChild(form);
+  target.appendChild(container);
+}

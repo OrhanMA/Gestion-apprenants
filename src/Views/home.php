@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../public/styles/style.css">
+    <link rel="stylesheet" href="../public/styles/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
@@ -15,7 +15,7 @@
     <div class="pageContainer">
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
     </div>
-   <!-- <div class="container mt-3">
+    <!-- <div class="container mt-3">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Toutes les promotions</h2>
             <a href="" class="btn btn-success font-weight-bold">Ajouter promotion</a>
@@ -129,7 +129,10 @@
             </div>
         </form>
     </div> -->
-  <script src="./../src/scripts/form.js"></script>
-  <script src="./../scripts/promotion.js"></script>
+    <script type="module" src="./../src/scripts/form.js"></script>
+    <!-- <script type="module" src="./../src/scripts/promotionCreate.js"></script> 
+    <script type="module" src="./../src/scripts/promotionList.js"></script>
+    <script type="module" src="./../src/scripts/promotionUpdate.js"></script> -->
 </body>
+
 </html>
