@@ -14,40 +14,50 @@
             /* width: 300px; 
         } */
 
-.backgroud {
-          display: flex;
-          flex-direction: row;
-          background-color: #f9f4f4; 
-          padding: 20px;
-          width: Fixed (1,150px)px;
-          height: Hug (67px)px;
-          gap: 0px;
-          justify-content: space-between;
+        .DWWM3 {
+              margin: 10px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              background-color: rgb(238, 235, 235);
         }
 
-.DWWM3 {
-       width: Fill (1,240px)px;
-height: Hug (180px)px;
-padding: 25px 45px 25px 45px;
-gap: 30px;
-border-radius: 3px 0px 0px 0px;
-opacity: 0px;
-}
+        .DWWM2 {
+              margin: 10px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              background-color: rgb(238, 235, 235);
+        }
+        
+        .CDA {
+              margin: 10px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              background-color: rgb(238, 235, 235);
+             
+        }
 
-.r {
-       width: Fixed (1,150px)px;
-height: Hug (67px)px;
-gap: 0px;
-justify-content: space-between;
-opacity: 0px;
-}
+        .validePresence {
+              margin: 10px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              background-color: rgb(238, 235, 235);
+             
+        }
 
-.button{
-       width: Fill (1,150px)px;
-height: Hug (33px)px;
-gap: 10px;
-opacity: 0px;
+        .signature {
+              margin: 10px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              background-color: rgb(238, 235, 235);
+              
+            
+        }
 
-}
+      
 
 
