@@ -10,12 +10,29 @@
 </head>
 
 <body>
-    <h1>Titre de la page</h1>
-    <p class="descriptionParagraph">Sous-titre de la page</p>
+
+<!-- --------------------DIV FOR JS ATTACHMENT----------------------- -->
+	<div id="headerConnected"></div>
+	<div id="navbarPromotionDetail"></div>
+	<div id="promotionDetailInfos"></div>
+<!-- ---------------------------------------------------------------- -->
+
+</body>
+</html>
+	
+<!-- ---------------------------------------------------------------------------- -->
+
     <div class="pageContainer">
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
     </div>
+
+<!-- --------------------------JS LINK------------------------------- -->
     <script src="./../src/scripts/form.js"></script>
+    <script src="./../src/scripts/headerConnected.js"></script>
+    <script src="./../src/scripts/navbarPromotionDetail.js"></script>
+    <script src="./../src/scripts/promotionDetailInfos.js"></script>
+<!-- ---------------------------------------------------------------- -->
+
 </body>
 
 </html>

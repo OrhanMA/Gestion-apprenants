@@ -1,16 +1,28 @@
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 form {
   background-color: #f8f9fa;
   padding: 80px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 300px;
+}
+
+/***********************************PROMOTION DETIAL LUCAS******************************************/
+
+header {
+  margin-bottom: 25px;
+}
+
+.btn-primary {
+  margin-right: 20px;
+  margin-left: 25px;
+}
+
+.titlePromotionDetails {
+  margin-top: 40px;
+  margin-left: 25px;
+}
+
+.descriptionParagraph {
+  margin-top: 20px;
+  margin-left: 25px;
 }
