@@ -7,9 +7,13 @@ class CoursesRepository extends Database implements RepositoryInterface
   {
     // logique pour récupérer toutes les instances
     $database = $this->getDb();
-    $query = 'SELECT * FROM courses';
+    $query = 'SELECT c.date, c.id AS course_id, c.period, p.name AS promotion_name, p.places, COUNT(uc.present) AS present_count FROM courses c  JOIN promotions p ON p.id = c.promotionId LEFT JOIN 
+    user_course uc ON uc.courseId = c.id AND uc.present = 1 GROUP BY 
+    c.id
+;
+';
     $statement = $database->query($query);
-    $courses = $statement->fetchAll(PDO::FETCH_CLASS, Course::class);
+    $courses = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $courses;
   }
 

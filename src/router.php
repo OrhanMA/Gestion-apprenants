@@ -36,6 +36,9 @@ switch ($highway) {
         }
         break;
     case COURSES_API:
+        if ($method == "GET") {
+            $coursesController->index();
+        }
         if ($method == "POST") {
             $coursesController->getUserCourses($data);
         }
