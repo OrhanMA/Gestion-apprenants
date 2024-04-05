@@ -1,4 +1,5 @@
 import { promotionCreate } from "./promotionCreate.js";
+import { promotionDetailInfos } from "./promotionDetailInfos.js";
 import { promotionUpdate } from "./promotionUpdate.js";
 
 export function promotionList(target, promotions) {
@@ -65,21 +66,21 @@ export function promotionList(target, promotions) {
 
     const tdActions = document.createElement("td");
 
-    // const actions = ["Éditer", "Supprimer"];
-    // actions.forEach((action) => {
-    //   const a = document.createElement("a");
-    //   a.classList.add("btn", "btn-sm");
-    //   a.textContent = action;
-    //   tdActions.appendChild(a);
-    // });
+    const promotionId = promotion.id;
+    const showButton = document.createElement("button");
+    showButton.textContent = "Voir";
     const updateButton = document.createElement("button");
     updateButton.textContent = "Éditer";
+    tdActions.appendChild(showButton);
     tdActions.appendChild(updateButton);
-    const promotionId = promotion.id;
+    const pageContainer = document.querySelector(".pageContainer");
     updateButton.addEventListener("click", () => {
-      const pageContainer = document.querySelector(".pageContainer");
       pageContainer.innerHTML = "";
       promotionUpdate(pageContainer, promotionId);
+    });
+    showButton.addEventListener("click", () => {
+      pageContainer.innerHTML = "";
+      promotionDetailInfos(pageContainer, promotionId);
     });
 
     tr.appendChild(tdActions);

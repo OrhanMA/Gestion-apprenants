@@ -153,7 +153,7 @@ async function deletePromotion(promotionId) {
   }
 }
 
-async function getPromotion(promotionId) {
+export async function getPromotion(promotionId) {
   try {
     const response = await fetch(
       `http://localhost:8888/Gestion-apprenants/public/promotions/${promotionId}`,
