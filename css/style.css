@@ -1,4 +1,4 @@
- /* body {
+/* body {
             margin: 0;
             padding: 0;
             display: flex;
@@ -14,50 +14,42 @@
             /* width: 300px; 
         } */
 
-        .DWWM3 {
-              margin: 10px;
-              padding: 20px;
-              display: flex;
-              justify-content: space-between;
-              background-color: rgb(238, 235, 235);
-        }
+.DWWM3 {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(238, 235, 235);
+}
 
-        .DWWM2 {
-              margin: 10px;
-              padding: 20px;
-              display: flex;
-              justify-content: space-between;
-              background-color: rgb(238, 235, 235);
-        }
-        
-        .CDA {
-              margin: 10px;
-              padding: 20px;
-              display: flex;
-              justify-content: space-between;
-              background-color: rgb(238, 235, 235);
-             
-        }
+.DWWM2 {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(238, 235, 235);
+}
 
-        .validePresence {
-              margin: 10px;
-              padding: 20px;
-              display: flex;
-              justify-content: space-between;
-              background-color: rgb(238, 235, 235);
-             
-        }
+.CDA {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(238, 235, 235);
+}
 
-        .signature {
-              margin: 10px;
-              padding: 20px;
-              display: flex;
-              justify-content: space-between;
-              background-color: rgb(238, 235, 235);
-              
-            
-        }
+.validePresence {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(238, 235, 235);
+}
 
-      
-
-
+.signature {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(238, 235, 235);
+}
