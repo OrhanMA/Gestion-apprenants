@@ -40,6 +40,12 @@ switch ($highway) {
             $coursesController->getUserCourses($data);
         }
         break;
+    case COURSES_API_SIGN:
+        if ($method == "POST") {
+            $coursesController->signUserCourse($data);
+        }
+        break;
+
         // case AUTH:
         //     if ($method == "POST") {
         //         $autController->checkExisitingEmail();

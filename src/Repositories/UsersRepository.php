@@ -24,6 +24,33 @@ class UsersRepository extends Database implements RepositoryInterface
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
+  public function checkPasswordSet($id)
+  {
+    $database = $this->getDb();
+    $query = 'SELECT password FROM users WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result && $result['password'] !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function getByEmailSecureData($email)
+  {
+    // logique pour récupérer une instance par son id
+    $database = $this->getDb();
+    $query = 'SELECT id, firstName, lastName, active, email, roleId FROM users WHERE email=:email';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':email', $email);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   public function getById($id)
   {
     // logique pour récupérer une instance par son id

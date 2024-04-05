@@ -9,6 +9,8 @@ const checkEmailURL = baseURL + "/auth/check_email";
 const createPasswordURL = baseURL + "/auth/create_password";
 const loginURL = baseURL + "/auth/login";
 const coursesURL = baseURL + "/courses";
+const userCourseSignatureURL = baseURL + "/courses/sign_course";
+let current_user = null;
 const welcomeForm1Data = [
   {
     type: "email",
@@ -49,12 +51,13 @@ const loginPasswordInput = [
 ];
 createForm(welcomeForm1Data, pageContainer, "emailForm", "Connexion");
 const emailForm = document.getElementById("emailForm");
-
+const emailInput = emailForm.querySelector("input[type=email]");
+emailInput.value = "test@test.com";
+console.log(emailInput);
 emailForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = emailForm.querySelector("input[type=email]");
   const emailValue = email.value;
-  console.log(emailValue);
 
   try {
     const response = await fetch(checkEmailURL, {
@@ -73,7 +76,9 @@ emailForm.addEventListener("submit", async (e) => {
       return;
     }
     const user = data.user;
-    if (user.password === null) {
+    current_user = user;
+    const passwordSet = data.passwordSet;
+    if (!passwordSet) {
       displayCreatePasswordForm(user);
       document.getElementById("emailForm").remove();
     } else {
@@ -81,7 +86,7 @@ emailForm.addEventListener("submit", async (e) => {
       displayLoginForm(user);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 
@@ -110,10 +115,8 @@ function displayLoginForm(user) {
         }),
       });
       const data = await response.json();
-      console.log(data);
 
       const loginSuccess = data.success;
-
       if (!loginSuccess) {
         alert(data.message);
         return;
@@ -121,7 +124,7 @@ function displayLoginForm(user) {
       // redirection vers page selon données dans data.user (voir le role et rediriger en conséquence)
       displayCoursesPage(user);
     } catch (error) {
-      console.log("Error creating password: ", error);
+      console.error("Error creating password: ", error);
     }
   });
 }
@@ -143,9 +146,6 @@ function displayCreatePasswordForm(user) {
     const password = form.querySelector("#password").value;
     const passwordConfirm = form.querySelector("#passwordConfirm").value;
     try {
-      console.log(password);
-      console.log(passwordConfirm);
-      console.log(user.id);
       //   emily.brown@example.com
       const response = await fetch(createPasswordURL, {
         method: "POST",
@@ -170,7 +170,7 @@ function displayCreatePasswordForm(user) {
       document.getElementById("createPasswordForm").remove();
       displayLoginForm(user);
     } catch (error) {
-      console.log("Error creating password: ", error);
+      console.error("Error creating password: ", error);
     }
   });
 }
@@ -206,12 +206,103 @@ function createForm(inputsData, target, id, submitButtonText) {
 
 async function displayCoursesPage(user) {
   pageContainer.innerHTML = "";
-  h1.textContent = "Tous les cours";
-  descriptionParagraph.textContent =
-    "Liste des cours pour l'apprenant(e) " +
-    user.firstName +
-    " " +
-    user.lastName;
+  const role = user.roleId;
+  // console.log(role);
+  if (role === 1) {
+    h1.textContent = "Tous les cours pour " + user.firstName;
+    descriptionParagraph.textContent =
+      "Liste des cours pour l'apprenant(e) " +
+      user.firstName +
+      " " +
+      user.lastName;
+    // afficher les cours apprenants
+    const data = await getUserCourses(user);
+    const courses = data.courses;
+    // console.log(courses);
+    const coursesContainer = document.createElement("div");
+    coursesContainer.classList.add("coursesContainer");
+    pageContainer.appendChild(coursesContainer);
+    injectCoursesList(coursesContainer, courses);
+  }
+}
+
+function injectCoursesList(target, courses) {
+  courses.forEach((course) => {
+    const card = createCourseCard(course);
+    target.appendChild(card);
+  });
+}
+
+function createCourseCard(course) {
+  console.log(course);
+  const card = document.createElement("div");
+  const period = document.createElement("p");
+  period.textContent = course.course_period;
+  const date = document.createElement("p");
+  date.textContent = course.course_date;
+  const participants = document.createElement("p");
+  participants.textContent = course.promotion_places;
+  const signatureButton = document.createElement("button");
+  signatureButton.textContent =
+    course.late === 1
+      ? "Retard"
+      : course.present === 0
+      ? "Valider présence"
+      : "Signature receuillie";
+
+  const buttonClasses =
+    course.late === 1
+      ? "btn-danger"
+      : course.present === 0
+      ? "btn-primary"
+      : "btn-secondary";
+  signatureButton.classList.add("btn");
+  signatureButton.classList.add(buttonClasses);
+  if (course.present === 0 && course.late === 0) {
+    signatureButton.addEventListener("click", async () => {
+      const response = await validateCoursePresence(course.user_course_id);
+      console.log(response);
+
+      if (!response.success) {
+        alert("La mise a jour de la signature a échouée");
+        return;
+      }
+      if (current_user !== null) {
+        const data = await getUserCourses(current_user);
+        const courses = data.courses;
+        // console.log(courses);
+        const coursesContainer = document.querySelector(".coursesContainer");
+        coursesContainer.innerHTML = "";
+        injectCoursesList(coursesContainer, courses);
+      }
+    });
+  }
+  card.appendChild(period);
+  card.appendChild(date);
+  card.appendChild(participants);
+  card.appendChild(signatureButton);
+  return card;
+}
+
+async function validateCoursePresence(userCourseId) {
+  try {
+    const response = await fetch(userCourseSignatureURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userCourseId: userCourseId,
+      }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la signature: ", error);
+  }
+}
+
+async function getUserCourses(user) {
   try {
     const response = await fetch(coursesURL, {
       method: "POST",
@@ -226,29 +317,8 @@ async function displayCoursesPage(user) {
       alert(data.message);
       return;
     }
-    const courses = data.courses;
-    const coursesContainer = document.createElement("div");
-    injectCoursesList(coursesContainer, courses);
-    pageContainer.appendChild(coursesContainer);
+    return data;
   } catch (error) {
-    console.log("Erreur lors du fetch des cours", error);
+    console.error("Erreur lors du fetch des cours", error);
   }
-}
-
-function injectCoursesList(target, courses) {
-  courses.forEach((course) => {
-    const card = createCourseCard(course);
-    target.appendChild(card);
-  });
-}
-
-function createCourseCard(course) {
-  const card = document.createElement("div");
-  const period = document.createElement("p");
-  period.textContent = course.course_period;
-  const date = document.createElement("p");
-  date.textContent = course.course_date;
-  card.appendChild(period);
-  card.appendChild(date);
-  return card;
 }

@@ -13,18 +13,55 @@ class CoursesRepository extends Database implements RepositoryInterface
     return $courses;
   }
 
+
   public function getUserCourses($userId)
   {
     $database = $this->getDb();
-    $query = 'SELECT uc.id AS user_course_id, u.id AS user_id, u.firstName AS user_firstName, u.lastName AS user_lastName, u.email AS user_email, c.id AS course_id, c.date AS course_date, c.period AS course_period
-                  FROM user_course uc
-                  JOIN users u ON uc.userId = u.id
-                  JOIN courses c ON uc.courseId = c.id
-                  WHERE uc.userId = :userId';
+    $query = 'SELECT 
+    uc.id AS user_course_id, 
+    uc.present AS present, 
+    uc.late AS late, 
+    c.date AS course_date, 
+    c.period AS course_period, 
+    p.name AS promotion_name,
+    p.places AS promotion_places
+FROM 
+    user_course uc
+JOIN 
+    users u ON uc.userId = u.id
+JOIN 
+    courses c ON uc.courseId = c.id
+JOIN 
+    promotions p ON c.promotionId = p.id
+WHERE 
+    uc.userId = :userId;
+';
     $statement = $database->prepare($query);
     $statement->bindParam(':userId', $userId);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function signUserCourse($id)
+  {
+    $present = 1;
+    $database = $this->getDb();
+    $query = 'UPDATE user_course SET present=:present WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':present', $present);
+    $statement->bindParam(':id', $id);
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function getUserCourseById($id)
+  {
+    $database = $this->getDb();
+    $query = 'SELECT * FROM user_course WHERE id=:id';
+    $statement = $database->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   public function getById($id)

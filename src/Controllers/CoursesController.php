@@ -26,6 +26,40 @@ class CoursesController
         echo json_encode(['courses' => $courses]);
     }
 
+    public function signUserCourse($data)
+    {
+        $data = json_decode($data, true);
+        $id = isset($data['userCourseId']) ? htmlspecialchars($data['userCourseId']) : null;
+
+        if (!isset($id) || empty($id)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'userCourseId doit être fourni']);
+            exit();
+        }
+
+        $existingUserCourse = $this->coursesRepository->getUserCourseById($id);
+
+        if (!$existingUserCourse) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => "Aucun user_course ne correspond à l'id $id"]);
+            exit();
+        }
+
+        $signResponse = $this->coursesRepository->signUserCourse($id);
+
+        if (!$signResponse) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'La signature du cours a échouée', 'user_course' => []]);
+            exit();
+        }
+
+        $userCourse = $this->coursesRepository->getUserCourseById($id);
+
+        http_response_code(200);
+        echo json_encode(['success' => true, 'user_course' => $userCourse]);
+        exit();
+    }
+
     public function getUserCourses($data)
     {
         $data = json_decode($data, true);

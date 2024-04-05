@@ -38,7 +38,7 @@ class AuthController
     $data = json_decode($data, true);
     $email = htmlspecialchars($data["email"]);
 
-    $user = $this->usersRepository->getByEmail($email);
+    $user = $this->usersRepository->getByEmailSecureData($email);
 
     if (!isset($user) || $user == false) {
       // Pas de user avec cet email
@@ -47,8 +47,15 @@ class AuthController
       exit();
     }
 
+    $passwordSet = $this->usersRepository->checkPasswordSet($user['id']);
+
+    if (!$passwordSet) {
+      http_response_code(200);
+      echo json_encode(['valid' => true, 'passwordSet' => false, 'message' => "Un compte avec cette adresse email a bien été trouvé", 'user' => $user]);
+      exit();
+    }
     http_response_code(200);
-    echo json_encode(['valid' => true, 'message' => "Un compte avec cette adresse email a bien été trouvé", 'user' => $user]);
+    echo json_encode(['valid' => true, 'passwordSet' => true, 'message' => "Un compte avec cette adresse email a bien été trouvé", 'user' => $user]);
     exit();
   }
 
