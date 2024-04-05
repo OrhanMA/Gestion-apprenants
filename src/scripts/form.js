@@ -3,29 +3,27 @@ import {
   createPasswordInput,
   loginPasswordInput,
 } from "./fixture.js";
-import { promotionCreate } from "./promotionCreate.js";
 import { promotionList } from "./promotionList.js";
-import { promotionUpdate } from "./promotionUpdate.js";
 import { navbarPromotionDetail } from "./navbarPromotionDetail.js";
-import { promotionDetailInfos } from "./promotionDetailInfos.js";
+import {
+  logout,
+  getAllPromotions,
+  getAllCourses,
+  validateCoursePresence,
+  getUserCourses,
+} from "./fetchs.js";
 
-const body = document.querySelector("body");
-const pageContainer = document.querySelector(".pageContainer");
-const baseURL = "http://localhost:8888/Gestion-apprenants/public";
+export const baseURL = "http://localhost:8888/Gestion-apprenants/public";
 const checkEmailURL = baseURL + "/auth/check_email";
 const createPasswordURL = baseURL + "/auth/create_password";
 const loginURL = baseURL + "/auth/login";
-const coursesURL = baseURL + "/courses";
-const userCourseSignatureURL = baseURL + "/courses/sign_course";
+
+const pageContainer = document.querySelector(".pageContainer");
+
 let current_user = null;
 let authenticated = false;
 
-// promotionDetailInfos();
-// promotionCreate(pageContainer);
-// promotionList(pageContainer);
-// promotionUpdate(pageContainer);
-
-let headerConnectedContent = `
+const headerConnectedContent = `
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">SIMPLON</a>
@@ -37,17 +35,14 @@ let headerConnectedContent = `
 `;
 
 const headerConnected = document.getElementById("headerConnected");
-
 headerConnected.innerHTML = headerConnectedContent;
 
 const connectionButton = document.querySelector(".connectionButton");
 connectionButton.style.cursor = "pointer";
 
 connectionButton.addEventListener("click", async () => {
-  console.log("button clicked");
   if (authenticated) {
     const response = await logout();
-    console.log(response);
     if (response.success) {
       window.location.reload();
     }
@@ -64,23 +59,6 @@ connectionButton.addEventListener("click", async () => {
   }
 });
 
-async function logout() {
-  try {
-    const response = await fetch(baseURL + "/logout", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la déconnexion ", error);
-  }
-}
-
-// navbarPromotionDetail();
-
 createForm(
   welcomeForm1Data,
   pageContainer,
@@ -91,9 +69,7 @@ createForm(
 );
 const emailForm = document.getElementById("emailForm");
 const emailInput = emailForm.querySelector("input[type=email]");
-// emailInput.value = "test@test.com";
 emailInput.value = "michael.johnson@example.com";
-
 emailForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = emailForm.querySelector("input[type=email]");
@@ -159,7 +135,6 @@ function displayLoginForm(user) {
       });
       const data = await response.json();
 
-      console.log(data);
       const loginSuccess = data.success;
       if (!loginSuccess) {
         alert(data.message);
@@ -170,7 +145,6 @@ function displayLoginForm(user) {
       current_user = user;
       const connectionButton = document.querySelector(".connectionButton");
       connectionButton.textContent = "Déconnexion";
-      // redirection vers page selon données dans data.user (voir le role et rediriger en conséquence)
       displayCoursesPage(user);
     } catch (error) {
       console.error("Error creating password: ", error);
@@ -181,7 +155,6 @@ function displayLoginForm(user) {
 async function displayCoursesPage(user) {
   pageContainer.innerHTML = "";
   const role = user.roleId;
-  // console.log(role);
   if (role === 1) {
     const h1 = document.querySelector("h1");
     if (h1) {
@@ -195,10 +168,8 @@ async function displayCoursesPage(user) {
         " " +
         user.lastName;
     }
-    // afficher les cours apprenants
     const data = await getUserCourses(user);
     const courses = data.courses;
-    // console.log(courses);
     if (courses) {
       const coursesContainer = document.createElement("div");
       coursesContainer.classList.add("coursesContainer");
@@ -210,17 +181,25 @@ async function displayCoursesPage(user) {
     navbarPromotionDetail();
     const promotionNavbar = document.querySelector(".promotionNavbar");
     const navbarButtons = promotionNavbar.querySelectorAll("button");
-    console.log(navbarButtons);
     const pageContainer = document.querySelector(".pageContainer");
     navbarButtons.forEach((button) => {
       button.addEventListener("click", async () => {
         const page = button.textContent;
-        console.log(page);
         if (page === "Promotions") {
-          // display page liste promotions
           pageContainer.innerHTML = "";
           const promotions = await getAllPromotions();
           promotionList(pageContainer, promotions);
+        }
+        if (page === "Liste des cours") {
+          pageContainer.innerHTML = "";
+          const data = await getAllCourses();
+          const courses = data.courses;
+          if (courses) {
+            const coursesContainer = document.createElement("div");
+            coursesContainer.classList.add("coursesContainer");
+            pageContainer.appendChild(coursesContainer);
+            injectCoursesList(coursesContainer, courses, "pedagogique");
+          }
         }
       });
     });
@@ -238,42 +217,12 @@ async function displayCoursesPage(user) {
     }
     const data = await getAllCourses();
     const courses = data.courses;
-    console.log(data);
-    console.log(courses);
     if (courses) {
       const coursesContainer = document.createElement("div");
       coursesContainer.classList.add("coursesContainer");
       pageContainer.appendChild(coursesContainer);
       injectCoursesList(coursesContainer, courses, "pedagogique");
     }
-  }
-}
-
-export async function getAllPromotions() {
-  try {
-    const response = await fetch(baseURL + "/promotions", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des promotions", error);
-  }
-}
-
-async function getAllCourses() {
-  try {
-    const response = await fetch(coursesURL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des cours: ", error);
   }
 }
 
@@ -290,7 +239,6 @@ function injectCoursesList(target, courses, type) {
   });
 }
 function createPedagoCard(course) {
-  console.log(course);
   const card = document.createElement("div");
   const period = document.createElement("p");
   period.textContent = course.period;
@@ -305,7 +253,6 @@ function createPedagoCard(course) {
   return card;
 }
 function createCourseCard(course) {
-  // console.log(course);
   const card = document.createElement("div");
   const period = document.createElement("p");
   period.textContent = course.course_period;
@@ -332,7 +279,6 @@ function createCourseCard(course) {
   if (course.present === 0 && course.late === 0) {
     signatureButton.addEventListener("click", async () => {
       const response = await validateCoursePresence(course.user_course_id);
-      console.log(response);
 
       if (!response.success) {
         alert("La mise a jour de la signature a échouée");
@@ -341,7 +287,6 @@ function createCourseCard(course) {
       if (current_user !== null) {
         const data = await getUserCourses(current_user);
         const courses = data.courses;
-        // console.log(courses);
         const coursesContainer = document.querySelector(".coursesContainer");
         coursesContainer.innerHTML = "";
         injectCoursesList(coursesContainer, courses, "learner");
@@ -353,45 +298,6 @@ function createCourseCard(course) {
   card.appendChild(participants);
   card.appendChild(signatureButton);
   return card;
-}
-
-async function validateCoursePresence(userCourseId) {
-  try {
-    const response = await fetch(userCourseSignatureURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userCourseId: userCourseId,
-      }),
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la signature: ", error);
-  }
-}
-
-async function getUserCourses(user) {
-  try {
-    const response = await fetch(coursesURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: user.id }),
-    });
-    const data = await response.json();
-    const success = data.success;
-    if (!success) {
-      alert(data.message);
-      return;
-    }
-    return data;
-  } catch (error) {
-    console.error("Erreur lors du fetch des cours", error);
-  }
 }
 
 function displayCreatePasswordForm(user) {

@@ -1,4 +1,5 @@
-import { getAllPromotions } from "./form.js";
+import { getAllPromotions } from "./fetchs.js";
+import { baseURL } from "./form.js";
 import { promotionList } from "./promotionList.js";
 
 export function promotionCreate(target) {
@@ -41,6 +42,7 @@ export function promotionCreate(target) {
     const input = document.createElement("input");
     input.type = group.type;
     input.name = group.id;
+    input.required = true;
     input.classList.add("form-control");
     input.id = group.id;
     if (group.placeholder) {
@@ -70,7 +72,6 @@ export function promotionCreate(target) {
       places: document.querySelector("#places").value,
     };
     const response = await insertPromotion(data);
-    console.log(response);
 
     if (!response.created) {
       alert("Erreur lors de la création de la promotion. Veuillez réesayer");
@@ -84,18 +85,14 @@ export function promotionCreate(target) {
 }
 
 async function insertPromotion(formData) {
-  console.log(formData);
   try {
-    const response = await fetch(
-      "http://localhost:8888/Gestion-apprenants/public/promotions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+    const response = await fetch(baseURL + "/promotions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
     const data = await response.json();
     return data;
   } catch (error) {

@@ -1,4 +1,5 @@
-import { getAllPromotions } from "./form.js";
+import { baseURL } from "./form.js";
+import { getAllPromotions } from "./fetchs.js";
 import { promotionList } from "./promotionList.js";
 
 export async function promotionUpdate(target, promotionId) {
@@ -59,6 +60,7 @@ export async function promotionUpdate(target, promotionId) {
     const input = document.createElement("input");
     input.type = group.type;
     input.name = group.id;
+    input.required = true;
     input.classList.add("form-control");
     input.id = group.id;
     input.value = group.value;
@@ -108,7 +110,6 @@ export async function promotionUpdate(target, promotionId) {
       places: document.querySelector("#places").value,
     };
     const response = await updatePromotion(data, promotion.id);
-    console.log(response);
 
     if (!response.updated) {
       alert("Erreur lors de la mise à jour de la promotion. Veuillez réesayer");
@@ -122,10 +123,9 @@ export async function promotionUpdate(target, promotionId) {
 }
 
 async function updatePromotion(formData, promotionId) {
-  console.log(formData);
   try {
     const response = await fetch(
-      `http://localhost:8888/Gestion-apprenants/public/promotions/update/${promotionId}`,
+      baseURL + `/promotions/update/${promotionId}`,
       {
         method: "POST",
         headers: {
@@ -143,9 +143,7 @@ async function updatePromotion(formData, promotionId) {
 
 async function deletePromotion(promotionId) {
   try {
-    const response = await fetch(
-      `http://localhost:8888/Gestion-apprenants/public/promotions/delete/${promotionId}`
-    );
+    const response = await fetch(baseURL + `/promotions/delete/${promotionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -155,15 +153,12 @@ async function deletePromotion(promotionId) {
 
 export async function getPromotion(promotionId) {
   try {
-    const response = await fetch(
-      `http://localhost:8888/Gestion-apprenants/public/promotions/${promotionId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(baseURL + `/promotions/${promotionId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
     return data;
   } catch (error) {
