@@ -8,13 +8,24 @@
     <link rel="stylesheet" href="../../public/styles/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-
+  
 <body class="d-flex flex-column">
+<!-- --------------------DIV FOR JS ATTACHMENT----------------------- -->
+	<div id="headerConnected"></div>
+	<div id="navbarPromotionDetail"></div>
+	<div id="promotionDetailInfos"></div>
+<!-- ---------------------------------------------------------------- -->
     <h1>Titre de la page</h1>
     <p class="descriptionParagraph">Sous-titre de la page</p>
     <div class="pageContainer">
         <!-- Ici injection du contenu (des "pages") avec Javascript -->
     </div>
+  <script src="./../src/scripts/form.js"></script>
+  <script src="./../scripts/promotion.js"></script>
+  <script src="./../src/scripts/headerConnected.js"></script>
+  <script src="./../src/scripts/navbarPromotionDetail.js"></script>
+  <script src="./../src/scripts/promotionDetailInfos.js"></script>
+      <!-- LISTE DES PROMOTIONS -->
    <!-- <div class="container mt-3">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Toutes les promotions</h2>
@@ -80,6 +91,7 @@
         </table>
     </div> -->
 
+    <!-- CREATION PROMOTION -->
     <!-- <div class="container mt-5">
         <h2 class="mb-3">Création d'une promotion</h2>
         <form>
@@ -103,6 +115,7 @@
         </form>
     </div> -->
 
+  <!-- EDITION PROMOTION --> 
     <!-- <div class="container mt-5">
         <h2>Édition de la promotion DWWM3</h2>
         <p>Les changements appliqués sont définitifs</p>
@@ -129,7 +142,5 @@
             </div>
         </form>
     </div> -->
-  <script src="./../src/scripts/form.js"></script>
-  <script src="./../scripts/promotion.js"></script>
 </body>
 </html>
